@@ -4,19 +4,16 @@
     {
         public IEnumerable<ReportEntry> Entries { get; set; } = new List<ReportEntry>();
 
-        public void FromCSV(string path)
+        public StockReport(string filePath)
         {
-            using (var reader = new StreamReader(@path))
-            {
-                reader.ReadLine(); //header
+            using var reader = new StreamReader(filePath);
+            // skip header
+            reader.ReadLine(); 
 
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var entry = new ReportEntry();
-                    entry.FromCSV(line);
-                    _ = Entries.Append(entry);
-                }
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                Entries.Append(new ReportEntry(line!));
             }
         }
     }
