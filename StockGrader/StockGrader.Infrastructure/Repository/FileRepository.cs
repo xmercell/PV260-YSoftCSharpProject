@@ -7,7 +7,7 @@
             var client = new HttpClient();
             var stream = await client.GetStreamAsync(address);
 
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             var content = reader.ReadToEnd();
             File.WriteAllText(location, content);
         }
