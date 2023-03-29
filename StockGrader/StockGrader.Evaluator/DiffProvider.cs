@@ -7,7 +7,7 @@ namespace StockGrader.Evaluator
     public class DiffProvider : IDiffProvider
     {
         public IEnumerable<Position> NewPositions = new List<Position>();
-        public IEnumerable<Position> UnchanchedPositions = new List<Position>();
+        public IEnumerable<Position> UnchangedPositions = new List<Position>();
         public IEnumerable<UpdatedPosition> IncreasedPositions = new List<UpdatedPosition>();
         public IEnumerable<UpdatedPosition> ReducedPositions = new List<UpdatedPosition>();
         public IEnumerable<RemovedPosition> RemovedPositions = new List<RemovedPosition>();
