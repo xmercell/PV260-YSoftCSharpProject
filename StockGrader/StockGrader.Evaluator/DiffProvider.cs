@@ -1,4 +1,5 @@
 ﻿using StockGrader.Domain.Model;
+using StockGrader.Evaluator.Exceptions;
 using StockGrader.Evaluator.Model;
 
 namespace StockGrader.Evaluator
@@ -18,6 +19,27 @@ namespace StockGrader.Evaluator
 
         private IDictionary<string, ProcessedEntry> ProcessEntries(IEnumerable<ReportEntry> entries)
         {
+            var processedEntries = new Dictionary<string, ProcessedEntry>();
+
+            foreach (var reportEntry in entries)
+            {
+                if (processedEntries.ContainsKey(reportEntry.Ticker))
+                {
+                    throw new DuplicateRecordException();
+                }
+
+                processedEntries.Add(
+                    reportEntry.Ticker, 
+                    new ProcessedEntry(
+                        reportEntry.CompanyName,
+                        reportEntry.Ticker,
+                        reportEntry.Shares,
+                        reportEntry.Weight
+                        )
+                    );
+                return processedEntries;
+            }
+
             throw new NotImplementedException();
         }
     }
