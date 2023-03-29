@@ -1,13 +1,21 @@
-﻿using StockGrader.Domain.Model;
+﻿    using StockGrader.Domain.Model;
 
-namespace StockGrader.Infrastructure.Repository
-{
-    public class StockRepository : IStockRepository
+    namespace StockGrader.Infrastructure.Repository
     {
-        public StockReport FetchNew()
+        public class StockRepository : IStockRepository
         {
-            // TODO: implement
-            throw new NotImplementedException();
+            private readonly IFileRepository _fileRepository;
+
+            public StockRepository(IFileRepository fileRepository)
+            {
+                _fileRepository = fileRepository;
+            }
+            
+            public async Task<StockReport> FetchNew(Uri holdingsSheetUri, string reportFilepath)
+            {
+                await _fileRepository.Fetch(holdingsSheetUri, reportFilepath);
+                var report = new StockReport(reportFilepath);
+                return report;
+            }
         }
     }
-}
