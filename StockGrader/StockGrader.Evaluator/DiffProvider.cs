@@ -37,10 +37,8 @@ namespace StockGrader.Evaluator
                         reportEntry.Weight
                         )
                     );
-                return processedEntries;
             }
-
-            throw new NotImplementedException();
+            return processedEntries;
         }
     }
 }
