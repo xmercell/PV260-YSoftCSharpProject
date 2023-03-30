@@ -14,7 +14,9 @@ namespace StockGrader.Evaluator
 
         public void CalculateDiff(IEnumerable<ReportEntry> oldEntries, IEnumerable<ReportEntry> newEntries)
         {
-            throw new NotImplementedException();
+            var oldProcessed = ProcessEntries(oldEntries);
+            var newProcessed = ProcessEntries(newEntries);
+            ParseProcessedEntries(oldProcessed, newProcessed);
         }
 
         private IDictionary<string, ProcessedEntry> ProcessEntries(IEnumerable<ReportEntry> entries)
@@ -39,6 +41,62 @@ namespace StockGrader.Evaluator
                     );
             }
             return processedEntries;
+        }
+
+        private void ParseProcessedEntries(IDictionary<string, ProcessedEntry> oldEntries, IDictionary<string, ProcessedEntry> newEntries)
+        {
+            foreach (var newEntry in newEntries)
+            {
+                if (!oldEntries.ContainsKey(newEntry.Key))
+                {
+                    var newPosition = new Position(newEntry.Value.CompanyName,
+                                                    newEntry.Value.Ticker,
+                                                    newEntry.Value.Shares,
+                                                    newEntry.Value.Weight);
+                    NewPositions.Append(newPosition);
+                    oldEntries.Remove(newEntry.Key);
+                    continue;
+                }
+                var oldEntryValue = oldEntries[newEntry.Key];
+                var shareChange = ComputeShareChangePercentage(oldEntryValue.Shares, newEntry.Value.Shares);
+                if (shareChange == 0) { 
+                    var unchangePosition = new Position(newEntry.Value.CompanyName,
+                                                        newEntry.Value.Ticker,
+                                                        newEntry.Value.Shares,
+                                                        newEntry.Value.Weight);
+                    UnchangedPositions.Append(unchangePosition);
+                }
+                else if (shareChange < 0)
+                { 
+                    var reducedPosition = new UpdatedPosition(newEntry.Value.CompanyName,
+                                                        newEntry.Value.Ticker,
+                                                        newEntry.Value.Shares,
+                                                        newEntry.Value.Weight,
+                                                         shareChange);
+                    ReducedPositions.Append(reducedPosition);
+                }
+                else
+                {
+                    var increasedPosition = new UpdatedPosition(newEntry.Value.CompanyName,
+                                                        newEntry.Value.Ticker,
+                                                        newEntry.Value.Shares,
+                                                        newEntry.Value.Weight,
+                                                         shareChange);
+                    IncreasedPositions.Append(increasedPosition);
+                }
+                oldEntries.Remove(newEntry.Key);
+            }
+            foreach(var oldEntry in oldEntries)
+            {
+                var removedPosition = new RemovedPosition(oldEntry.Value.CompanyName,
+                                                    oldEntry.Value.Ticker);
+                RemovedPositions.Append(removedPosition);
+            }
+        }
+
+        private double ComputeShareChangePercentage(int oldShare, int newShare)
+        {
+            return ((newShare / (oldShare + newShare)) - 1) * 100;
         }
     }
 }
