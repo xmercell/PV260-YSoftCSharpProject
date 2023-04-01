@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Domain", "Stock
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Evaluator", "StockGrader.Evaluator\StockGrader.Evaluator.csproj", "{96C3907F-AD3F-4C38-8459-43759800EF0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.Writer", "StockGrader.Writer\StockGrader.Writer.csproj", "{99B802E8-49BC-43E8-9C70-1A48A12AF319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer", "StockGrader.Writer\StockGrader.Writer.csproj", "{99B802E8-49BC-43E8-9C70-1A48A12AF319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.Test", "StockGrader.Test\StockGrader.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Test", "StockGrader.Test\StockGrader.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Evaluator.Test", "StockGrader.Evaluator.Test\StockGrader.Evaluator.Test.csproj", "{42213968-76DC-463C-96B1-76A78AB6CBDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
