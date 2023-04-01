@@ -4,10 +4,6 @@ namespace StockGrader.Evaluator.Test
 {
     public class PositionsTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         [Test]
         public void TestPositionToString()
