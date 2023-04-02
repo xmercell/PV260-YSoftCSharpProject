@@ -9,7 +9,7 @@ namespace StockGrader.Evaluator.Test
         public void TestPositionToString()
         {
             var position = new Position("Microsoft", "MSFT", 100, 0.5);
-            Assert.That(position.ToString(), Is.EqualTo("Microsoft, MSFT, 100, 0.5"));
+            Assert.That(position.ToString(), Is.EqualTo("Microsoft, MSFT, 100, 0,5"));
 
         }
         [Test]
@@ -22,13 +22,13 @@ namespace StockGrader.Evaluator.Test
         public void TestIncreasedPositionToString()
         {
             var updatedPosition = new UpdatedPosition("Microsoft", "MSFT", 100, 0.5, 10);
-            Assert.That(updatedPosition.ToString(), Is.EqualTo("Microsoft, MSFT, 100(🔺10%), 0.5"));
+            Assert.That(updatedPosition.ToString(), Is.EqualTo("Microsoft, MSFT, 100(🔺10%), 0,5"));
         }
         [Test]
         public void TestDecreasedPositionToString()
         {
             var updatedPosition = new UpdatedPosition("Microsoft", "MSFT", 100, 0.5, -10);
-            Assert.That(updatedPosition.ToString(), Is.EqualTo("Microsoft, MSFT, 100(🔻10%), 0.5"));
+            Assert.That(updatedPosition.ToString(), Is.EqualTo("Microsoft, MSFT, 100(🔻10%), 0,5"));
         }
     }
 }
