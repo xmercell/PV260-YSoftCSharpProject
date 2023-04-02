@@ -33,22 +33,16 @@ namespace StockGrader.Domain.Model
             Map(m => m.Cusip).Name("cusip").Optional();
             Map(m => m.Shares).Convert(row =>
             {
-                var s = row.Row.GetField("shares");
-                
-                if (s == null) return 0;
+                var s = row.Row.GetField("shares")!;
                 return int.Parse(s, NumberStyles.AllowThousands);
             });
             Map(m => m.MarketValue).Convert(row =>
             {
-                var m = row.Row.GetField("market value ($)");
-
-                if (m == null) return 0;
+                var m = row.Row.GetField("market value ($)")!;
                 return decimal.Parse(m, NumberStyles.Currency);
             });
             Map(m => m.Weight).Convert(row => {
-                var w = row.Row.GetField("weight (%)")?.Replace("%","");
-
-                if (w == null) return 0;
+                var w = row.Row.GetField("weight (%)")?.Replace("%","")!;
                 return double.Parse(w);
             });
         }
