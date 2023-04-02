@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CsvHelper;
+using Microsoft.VisualBasic.FileIO;
+using System.ComponentModel.DataAnnotations;
+using System.Formats.Asn1;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -34,14 +37,15 @@ namespace StockGrader.Domain.Model
         {
             string[] values = line.Split(',');
 
-            Date = GetDateTimeFromCSV(values[0]);
+            Date = GetDateTimeFromCSV(Regex.Replace(values[0], "[^0-9/]", ""));
             Fund = Convert.ToString(values[1]);
             CompanyName = Convert.ToString(values[2]);
             Ticker = Convert.ToString(values[3]);
             Cusip = Convert.ToString(values[4]);
-            Shares = Convert.ToInt32(Regex.Replace(values[5], "[^0-9]", ""));
-            MarketValue = Convert.ToDouble(Regex.Replace(values[6], "[^0-9.]", ""));
-            Weight = Convert.ToDouble(Regex.Replace(values[7], "[^0-9.]", ""));
+            Shares = Convert.ToInt32(Regex.Replace(values[5] + values[6] + values[7], "[^0-9]", ""));
+            MarketValue = Convert.ToDouble(Regex.Replace(values[8] + values[9] + values[10], "[^0-9.]", ""));
+            Weight = Convert.ToDouble(Regex.Replace(values[11], "[^0-9.]", ""));
+       
         }
 
         private DateTime GetDateTimeFromCSV(string date)

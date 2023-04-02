@@ -13,15 +13,13 @@
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                //Skip last line, bcs there is just text
-                if (!Char.IsDigit(line![0]))
-                {
-                    continue;
-                }
-                var reportEntry = new ReportEntry(line!);
-                ((List<ReportEntry>)Entries).Add(reportEntry);
-            }
 
+                if (!reader.EndOfStream)
+                {
+                    var reportEntry = new ReportEntry(line);
+                    ((List<ReportEntry>)Entries).Add(reportEntry);
+                }
+            }
         }
     }
 }
