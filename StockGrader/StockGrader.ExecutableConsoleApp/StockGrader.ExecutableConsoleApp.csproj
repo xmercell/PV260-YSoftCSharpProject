@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockGrader.Domain\StockGrader.Domain.csproj" />
+    <ProjectReference Include="..\StockGrader.Evaluator\StockGrader.Evaluator.csproj" />
+    <ProjectReference Include="..\StockGrader.Infrastructure\StockGrader.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockGrader.Writer\StockGrader.Writer.csproj" />
+  </ItemGroup>
+
+</Project>

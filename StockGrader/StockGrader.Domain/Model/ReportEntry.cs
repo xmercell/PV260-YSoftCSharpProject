@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace StockGrader.Domain.Model
@@ -33,7 +34,7 @@ namespace StockGrader.Domain.Model
         {
             string[] values = line.Split(',');
 
-            Date = Convert.ToDateTime(Regex.Replace(values[0], "[^0-9]", ""));
+            Date = GetDateTimeFromCSV(values[0]);
             Fund = Convert.ToString(values[1]);
             CompanyName = Convert.ToString(values[2]);
             Ticker = Convert.ToString(values[3]);
@@ -41,6 +42,14 @@ namespace StockGrader.Domain.Model
             Shares = Convert.ToInt32(Regex.Replace(values[5], "[^0-9]", ""));
             MarketValue = Convert.ToDouble(Regex.Replace(values[6], "[^0-9.]", ""));
             Weight = Convert.ToDouble(Regex.Replace(values[7], "[^0-9.]", ""));
+        }
+
+        private DateTime GetDateTimeFromCSV(string date)
+        {
+            var oneDigitMonth = "M/dd/yyyy";
+            var twoDigitMonth = "MM/dd/yyyy";
+            var format = Char.IsDigit(date[1]) ? twoDigitMonth : oneDigitMonth;
+            return DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
         }
     }
 }

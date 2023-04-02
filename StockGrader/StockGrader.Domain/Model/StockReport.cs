@@ -8,13 +8,20 @@
         {
             using var reader = new StreamReader(filePath);
             // skip header
-            reader.ReadLine(); 
+            reader.ReadLine();
 
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                Entries.Append(new ReportEntry(line!));
+                //Skip last line, bcs there is just text
+                if (!Char.IsDigit(line![0]))
+                {
+                    continue;
+                }
+                var reportEntry = new ReportEntry(line!);
+                ((List<ReportEntry>)Entries).Add(reportEntry);
             }
+
         }
     }
 }
