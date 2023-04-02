@@ -8,7 +8,8 @@ namespace StockGrader.Infrastructure.Repository
         /// Fetch fresh stock report from csv file on the web address: 
         /// </summary>
         /// <returns>New stock report parsed from csv</returns>
-        Task<StockReport> FetchNew();
+        Task FetchNew();
 
+        StockReport GetLast();
     }
 }

@@ -6,20 +6,23 @@
         {
             private readonly IFileRepository _fileRepository;
             private readonly Uri _holdingsSheetUri;
-            private readonly string _reportFilepath;
+            private readonly string _reportFilePath;
 
-            public StockRepository(IFileRepository fileRepository, Uri holdingsSheetUri, string reportFilepath)
+            public StockRepository(IFileRepository fileRepository, Uri holdingsSheetUri, string reportFilePath)
             {
                 _fileRepository = fileRepository;
                 _holdingsSheetUri = holdingsSheetUri;
-                _reportFilepath = reportFilepath;
+                _reportFilePath = reportFilePath;
             }
-            
-            public async Task<StockReport> FetchNew()
+
+            public async Task FetchNew()
             {
-                await _fileRepository.Fetch(_holdingsSheetUri, _reportFilepath);
-                var report = new StockReport(_reportFilepath);
-                return report;
+                await _fileRepository.Fetch(_holdingsSheetUri, _reportFilePath);
+            }
+
+            public StockReport GetLast()
+            {
+                return new StockReport(_reportFilePath);
             }
         }
     }
