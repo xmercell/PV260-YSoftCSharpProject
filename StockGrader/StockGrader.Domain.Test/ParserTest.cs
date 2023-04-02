@@ -1,18 +1,12 @@
-﻿using StockGrader.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StockGrader.Domain.Model;
 
-namespace StockGrader.Test
+namespace StockGrader.Domain.Test
 {
     public class ParserTests
     {
         [SetUp]
         public void Setup()
         {
-
         }
 
         [Test]

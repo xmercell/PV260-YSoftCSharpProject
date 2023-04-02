@@ -1,7 +1,4 @@
-﻿using CsvHelper;
-using Microsoft.VisualBasic.FileIO;
-using System.ComponentModel.DataAnnotations;
-using System.Formats.Asn1;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -45,7 +42,6 @@ namespace StockGrader.Domain.Model
             Shares = Convert.ToInt32(Regex.Replace(values[5] + values[6] + values[7], "[^0-9]", ""));
             MarketValue = Convert.ToDouble(Regex.Replace(values[8] + values[9] + values[10], "[^0-9.]", ""));
             Weight = Convert.ToDouble(Regex.Replace(values[11], "[^0-9.]", ""));
-       
         }
 
         private DateTime GetDateTimeFromCSV(string date)
