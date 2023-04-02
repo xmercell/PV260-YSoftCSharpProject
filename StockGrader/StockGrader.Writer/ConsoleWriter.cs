@@ -31,7 +31,7 @@ namespace StockGrader.Writer
             var result = new StringBuilder($"Increased positions:{Environment.NewLine}");
             foreach (var pos in IncreasedPositions)
             {
-                result.AppendLine($"{pos.CompanyName}, {pos.Ticker}, {pos.Shares} ( ⬆{pos.SharesChange}%), {pos.Weight}%");
+                result.AppendLine(pos.ToString());
                 
             }
             result.AppendLine();
@@ -43,7 +43,7 @@ namespace StockGrader.Writer
             var result = new StringBuilder($"New positions:{Environment.NewLine}");
             foreach (var pos in NewPositions)
             {
-                result.AppendLine($"{pos.CompanyName}, {pos.Ticker}, {pos.Shares}, {pos.Weight}%");
+                result.AppendLine(pos.ToString());
             }
             result.AppendLine();
             return result.ToString();
@@ -54,7 +54,7 @@ namespace StockGrader.Writer
             var result = new StringBuilder($"Reduced positions:{Environment.NewLine}");
             foreach (var pos in ReducedPositions)
             {
-                result.AppendLine($"{pos.CompanyName}, {pos.Ticker}, {pos.Shares} ( ⬇{pos.SharesChange}%), {pos.Weight}%");
+                result.AppendLine(pos.ToString());
             }
             result.AppendLine();
             return result.ToString();
@@ -65,7 +65,7 @@ namespace StockGrader.Writer
             var result = new StringBuilder($"Removed positions:{Environment.NewLine}");
             foreach (var pos in RemovedPositions)
             {
-                result.AppendLine($"{pos.CompanyName}, {pos.Ticker}");
+                result.AppendLine(pos.ToString());
             }
             result.AppendLine();
             return result.ToString();
@@ -76,7 +76,7 @@ namespace StockGrader.Writer
             var result = new StringBuilder($"Unchanged positions:{Environment.NewLine}");
             foreach (var pos in UnchangedPositions)
             {
-                result.AppendLine($"{pos.CompanyName}, {pos.Ticker}, {pos.Shares}, {pos.Weight}%");
+                result.AppendLine(pos.ToString());
             }
             result.AppendLine();
             return result.ToString();

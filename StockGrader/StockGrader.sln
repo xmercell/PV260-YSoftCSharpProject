@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Domain", "Stock
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Evaluator", "StockGrader.Evaluator\StockGrader.Evaluator.csproj", "{96C3907F-AD3F-4C38-8459-43759800EF0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.Writer", "StockGrader.Writer\StockGrader.Writer.csproj", "{99B802E8-49BC-43E8-9C70-1A48A12AF319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer", "StockGrader.Writer\StockGrader.Writer.csproj", "{99B802E8-49BC-43E8-9C70-1A48A12AF319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.Test", "StockGrader.Test\StockGrader.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer.Test", "StockGrader.Test\StockGrader.Writer.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
