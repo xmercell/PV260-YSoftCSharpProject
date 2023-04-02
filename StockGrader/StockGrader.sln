@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Evaluator", "St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer", "StockGrader.Writer\StockGrader.Writer.csproj", "{99B802E8-49BC-43E8-9C70-1A48A12AF319}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Test", "StockGrader.Test\StockGrader.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer.Test", "StockGrader.Test\StockGrader.Writer.Test.csproj", "{D01FB383-6B87-4B20-8CE6-C854A692BE0A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
 EndProject
