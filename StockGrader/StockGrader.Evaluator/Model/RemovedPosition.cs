@@ -17,5 +17,10 @@ namespace StockGrader.Evaluator.Model
             CompanyName = companyName;
             Ticker = ticker;
         }
+
+        public override string ToString()
+        {
+            return $"{CompanyName}, {Ticker}";
+        }
     }
 }
