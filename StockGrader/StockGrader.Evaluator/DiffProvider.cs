@@ -19,7 +19,7 @@ namespace StockGrader.Evaluator
             ParseProcessedEntries(oldProcessed, newProcessed);
         }
 
-        private IDictionary<string, ProcessedEntry> ProcessEntries(IEnumerable<ReportEntry> entries)
+        public IDictionary<string, ProcessedEntry> ProcessEntries(IEnumerable<ReportEntry> entries)
         {
             var processedEntries = new Dictionary<string, ProcessedEntry>();
 
@@ -43,7 +43,7 @@ namespace StockGrader.Evaluator
             return processedEntries;
         }
 
-        private void ParseProcessedEntries(IDictionary<string, ProcessedEntry> oldEntries, IDictionary<string, ProcessedEntry> newEntries)
+        public void ParseProcessedEntries(IDictionary<string, ProcessedEntry> oldEntries, IDictionary<string, ProcessedEntry> newEntries)
         {
             foreach (var newEntry in newEntries)
             {
@@ -94,9 +94,14 @@ namespace StockGrader.Evaluator
             }
         }
 
-        private double ComputeShareChangePercentage(int oldShare, int newShare)
+        public double ComputeShareChangePercentage(int oldShare, int newShare)
         {
-            return ((newShare / (oldShare + newShare)) - 1) * 100;
+            if( oldShare == 0 )
+            {
+                return newShare > 0 ? 100 : 0;
+            }
+            var result = (((double)newShare / oldShare) - 1) * 100;
+            return result;
         }
     }
 }

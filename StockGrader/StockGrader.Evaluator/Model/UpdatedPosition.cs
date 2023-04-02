@@ -26,5 +26,11 @@ namespace StockGrader.Evaluator.Model
             Weight = weight;
             SharesChange = sharesChange;
         }
+
+        public override string ToString()
+        {
+            var changeSymbol = SharesChange < 0 ? "🔻"  : "🔺";
+            return $"{CompanyName}, {Ticker}, {Shares}({changeSymbol}{Math.Abs(SharesChange)}%), {Weight}";
+        }
     }
 }

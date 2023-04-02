@@ -23,5 +23,10 @@ namespace StockGrader.Evaluator.Model
             Shares = shares;
             Weight = weight;
         }
+
+        public override string ToString()
+        {
+            return $"{CompanyName}, {Ticker}, {Shares}, {Weight}";
+        }
     }
 }

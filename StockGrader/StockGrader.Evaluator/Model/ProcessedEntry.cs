@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace StockGrader.Evaluator.Model
 {
 
-    internal class ProcessedEntry
+    public class ProcessedEntry
     {
         public string CompanyName { get; }
 
