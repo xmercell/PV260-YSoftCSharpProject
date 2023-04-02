@@ -96,11 +96,12 @@ namespace StockGrader.Evaluator
 
         public double ComputeShareChangePercentage(int oldShare, int newShare)
         {
-            if( oldShare+newShare <= 0 )
+            if( oldShare == 0 )
             {
-                return 0;
+                return newShare > 0 ? 100 : 0;
             }
-            return ((newShare / (oldShare + newShare)) - 1) * 100;
+            var result = (((double)newShare / oldShare) - 1) * 100;
+            return result;
         }
     }
 }

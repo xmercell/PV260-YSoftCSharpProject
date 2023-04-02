@@ -79,14 +79,14 @@ namespace StockGrader.Evaluator.Test
         [TestCase(100, 100, 0)]
         [TestCase(100, 200, 100)]
         [TestCase(200, 100, -50)]
-        //[TestCase(0, 100, 100)]
+        [TestCase(0, 100, 100)]
         [TestCase(100, 0, -100)]
         [TestCase(0, 0, 0)]
         public void ComputeShareChangePercentage_GivenOldAndNewShare_ReturnsPercentageChange(int oldShare, int newShare, double expectedPercentage)
         {
             // Act
             double result = diffprovider.ComputeShareChangePercentage(oldShare, newShare);
-
+            
             // Assert
             Assert.That(result, Is.EqualTo(expectedPercentage).Within(0.0001));
         }
