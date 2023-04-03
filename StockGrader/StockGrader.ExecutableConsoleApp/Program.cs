@@ -1,5 +1,6 @@
 ﻿using StockGrader.Evaluator;
 using StockGrader.Infrastructure.Repository;
+using StockGrader.Infrastructure.Services;
 using StockGrader.Writer;
 using System.Reflection;
 
@@ -9,8 +10,8 @@ var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\.
 var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
 
 // TODO: use DI
-var fileRepository = new FileRepository();
-IStockRepository stockRepository = new StockRepository(fileRepository, url, filePath);
+var fileService = new FileService();
+IStockRepository stockRepository = new StockRepository(fileService, url, filePath);
 
 var oldReport = stockRepository.GetLast();
 await stockRepository.FetchNew();
