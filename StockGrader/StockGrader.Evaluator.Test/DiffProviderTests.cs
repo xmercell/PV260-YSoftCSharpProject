@@ -33,8 +33,28 @@ namespace StockGrader.Evaluator.Test
             // Arrange
             var entries = new List<ReportEntry>
             {
-                new ReportEntry("1/01/2023,Fund1,Company1,Ticker1,Cusip1,100,1000,10"),
-                new ReportEntry("1/01/2023,Fund1,Company2,Ticker2,Cusip2,200,2000,20")
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company1",
+                    Ticker = "Ticker1",
+                    Cusip = "Cusip1",
+                    Shares = 100,
+                    MarketValue = 1000,
+                    Weight = 10
+                },
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company2",
+                    Ticker = "Ticker2",
+                    Cusip = "Cusip2",
+                    Shares = 200,
+                    MarketValue = 2000,
+                    Weight = 20
+                }
             };
 
             // Act
@@ -53,8 +73,28 @@ namespace StockGrader.Evaluator.Test
             // Arrange
             var entries = new List<ReportEntry>
             {
-                new ReportEntry("1/01/2023,Fund1,Company1,Ticker1,Cusip1,100,1000,10"),
-                new ReportEntry("1/01/2023,Fund1,Company1,Ticker1,Cusip1,100,1000,10")
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company1",
+                    Ticker = "Ticker1",
+                    Cusip = "Cusip1",
+                    Shares = 100,
+                    MarketValue = 1000,
+                    Weight = 10
+                },
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company1",
+                    Ticker = "Ticker1",
+                    Cusip = "Cusip1",
+                    Shares = 100,
+                    MarketValue = 1000,
+                    Weight = 10
+                }
             };
 
             // Act & Assert
@@ -67,9 +107,39 @@ namespace StockGrader.Evaluator.Test
             // Arrange
             var entries = new List<ReportEntry>
             {
-                new ReportEntry("1/01/2023,Fund1,Company1,Ticker1,Cusip1,100,1000,10"),
-                new ReportEntry("1/01/2023,Fund1,Company2,Ticker2,Cusip2,200,2000,20"),
-                new ReportEntry("1/01/2023,Fund1,Company2,Ticker2,Cusip2,200,2000,20")
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company1",
+                    Ticker = "Ticker1",
+                    Cusip = "Cusip1",
+                    Shares = 100,
+                    MarketValue = 1000,
+                    Weight = 10
+                },
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company2",
+                    Ticker = "Ticker2",
+                    Cusip = "Cusip2",
+                    Shares = 200,
+                    MarketValue = 2000,
+                    Weight = 20
+                },
+                new ReportEntry
+                {
+                    Date = new DateTime(2023, 1, 1),
+                    Fund = "Fund1",
+                    CompanyName = "Company2",
+                    Ticker = "Ticker2",
+                    Cusip = "Cusip2",
+                    Shares = 200,
+                    MarketValue = 2000,
+                    Weight = 20
+                }
             };
 
             // Act & Assert

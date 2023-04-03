@@ -54,7 +54,7 @@ namespace StockGrader.Evaluator
                                                     newEntry.Value.Shares,
                                                     newEntry.Value.Weight);
 
-                    NewPositions.ToList().Add(newPosition);
+                    ((List<Position>)NewPositions).Add(newPosition);
                     oldEntries.Remove(newEntry.Key);
                     continue;
                 }
@@ -65,7 +65,7 @@ namespace StockGrader.Evaluator
                                                         newEntry.Value.Ticker,
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight);
-                    UnchangedPositions.ToList().Add(unchangedPosition);
+                    ((List<Position>)UnchangedPositions).Add(unchangedPosition);
                 }
                 else if (shareChange < 0)
                 { 
@@ -74,7 +74,7 @@ namespace StockGrader.Evaluator
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    ReducedPositions.ToList().Add(reducedPosition);
+                    ((List<UpdatedPosition>)ReducedPositions).Add(reducedPosition);
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace StockGrader.Evaluator
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    IncreasedPositions.ToList().Add(increasedPosition);
+                    ((List<UpdatedPosition>)IncreasedPositions).Add(increasedPosition);
                 }
                 oldEntries.Remove(newEntry.Key);
             }
@@ -91,7 +91,7 @@ namespace StockGrader.Evaluator
             {
                 var removedPosition = new RemovedPosition(oldEntry.Value.CompanyName,
                                                     oldEntry.Value.Ticker);
-                RemovedPositions.ToList().Add(removedPosition);
+                ((List<RemovedPosition>)RemovedPositions).Add(removedPosition);
             }
         }
 
