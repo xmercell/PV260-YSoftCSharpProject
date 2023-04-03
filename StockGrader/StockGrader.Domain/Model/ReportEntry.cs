@@ -34,16 +34,16 @@ namespace StockGrader.Domain.Model
             Map(m => m.Shares).Convert(row =>
             {
                 var s = row.Row.GetField("shares")!;
-                return int.Parse(s, NumberStyles.AllowThousands);
+                return int.Parse(s, NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
             });
             Map(m => m.MarketValue).Convert(row =>
             {
                 var m = row.Row.GetField("market value ($)")!;
-                return decimal.Parse(m, NumberStyles.Currency);
+                return decimal.Parse(m, NumberStyles.Currency, new CultureInfo("en-US"));
             });
             Map(m => m.Weight).Convert(row => {
-                var w = row.Row.GetField("weight (%)")?.Replace("%","")!;
-                return double.Parse(w);
+                var w = row.Row.GetField("weight (%)")?.Replace("%", "")!;
+                return double.Parse(w, CultureInfo.InvariantCulture);
             });
         }
     }
