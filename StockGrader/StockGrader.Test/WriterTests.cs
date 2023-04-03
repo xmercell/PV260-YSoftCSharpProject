@@ -1,4 +1,5 @@
 using Moq;
+using Newtonsoft.Json.Linq;
 using StockGrader.Evaluator;
 using StockGrader.Infrastructure.Repository;
 using StockGrader.Writer;
@@ -9,7 +10,7 @@ namespace StockGrader.Test
         [SetUp]
         public void Setup()
         {
-      
+            
         }
 
         [Test]
@@ -25,11 +26,17 @@ namespace StockGrader.Test
             var writer = new ConsoleWriter(diffProvider);
 
             //Assert
-            Assert.That(string.IsNullOrEmpty(writer.NewText));
-            Assert.That(string.IsNullOrEmpty(writer.ReducedText));
-            Assert.That(string.IsNullOrEmpty(writer.RemovedText));
+            Assert.That(GetStringLength(writer.IncreasedText) == 1);
+            Assert.That(GetStringLength(writer.ReducedText) == 1);
+            Assert.That(GetStringLength(writer.RemovedText) == 1);
+            
             //Assert.Equals(writer.IncreasedText, "\"TESLA INC\", TSLA, spravne cisla");
 
+        }
+
+        private static int GetStringLength(string value)
+        {
+            return value.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)).ToArray().Length;
         }
 
         [Test]
@@ -44,9 +51,9 @@ namespace StockGrader.Test
             var writer = new ConsoleWriter(diffProvider);
 
             //Assert
-            Assert.That(string.IsNullOrEmpty(writer.NewText));
-            Assert.That(string.IsNullOrEmpty(writer.IncreasedText));
-            Assert.That(string.IsNullOrEmpty(writer.RemovedText));
+            Assert.That(GetStringLength(writer.NewText) == 1);
+            Assert.That(GetStringLength(writer.IncreasedText) == 1);
+            Assert.That(GetStringLength(writer.RemovedText) == 1);
             //Assert.Equals(writer.ReducedText, "\"TESLA INC\", TSLA, spravne cisla");
         }
 
@@ -62,9 +69,9 @@ namespace StockGrader.Test
             var writer = new ConsoleWriter(diffProvider);
 
             //Assert
-            Assert.That(string.IsNullOrEmpty(writer.NewText));
-            Assert.That(string.IsNullOrEmpty(writer.IncreasedText));
-            Assert.That(string.IsNullOrEmpty(writer.ReducedText));
+            Assert.That(GetStringLength(writer.NewText) == 1);
+            Assert.That(GetStringLength(writer.ReducedText) == 1);
+            Assert.That(GetStringLength(writer.IncreasedText) == 1);
             //Assert.Equals(writer.RemovedText, "");
         }
 
@@ -80,10 +87,10 @@ namespace StockGrader.Test
             var writer = new ConsoleWriter(diffProvider);
 
             //Assert
-            Assert.That(string.IsNullOrEmpty(writer.NewText));
-            Assert.That(string.IsNullOrEmpty(writer.IncreasedText));
-            Assert.That(string.IsNullOrEmpty(writer.ReducedText));
-            Assert.That(string.IsNullOrEmpty(writer.RemovedText));
+            Assert.That(GetStringLength(writer.NewText) == 1);
+            Assert.That(GetStringLength(writer.IncreasedText) == 1);
+            Assert.That(GetStringLength(writer.ReducedText) == 1);
+            Assert.That(GetStringLength(writer.RemovedText) == 1);
             //Assert.Equals(writer.UnchangedText, "");
         }
 
@@ -99,9 +106,9 @@ namespace StockGrader.Test
             var writer = new ConsoleWriter(diffProvider);
 
             //Assert
-            Assert.That(string.IsNullOrEmpty(writer.IncreasedText));
-            Assert.That(string.IsNullOrEmpty(writer.ReducedText));
-            Assert.That(string.IsNullOrEmpty(writer.RemovedText));
+            Assert.That(GetStringLength(writer.IncreasedText) == 1);
+            Assert.That(GetStringLength(writer.ReducedText) == 1);
+            Assert.That(GetStringLength(writer.RemovedText) == 1);
             Assert.Equals(writer.NewText, "");
         }
 
