@@ -1,11 +1,11 @@
-﻿namespace StockGrader.Infrastructure.Repository
+﻿namespace StockGrader.Infrastructure.Services
 {
-    public class FileRepository : IFileRepository
+    public class FileService : IFileService
     {
         private const string CommonUserAgent =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
         private const string UserAgentHeader = "User-Agent";
-        
+
         public async Task Fetch(Uri address, string location)
         {
             var client = new HttpClient();
