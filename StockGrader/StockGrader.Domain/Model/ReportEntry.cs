@@ -1,55 +1,50 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CsvHelper.Configuration;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace StockGrader.Domain.Model
 {
     public class ReportEntry
     {
-        [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.MinValue;
 
         public string Fund { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(64)]
         public string CompanyName { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(5)]
         public string Ticker { get; set; } = string.Empty;
 
         public string Cusip { get; set; } = string.Empty;
 
-        [Required]
         public int Shares { get; set; }
 
-        [Required]
-        public double MarketValue { get; set; }
+        public decimal MarketValue { get; set; }
 
-        [Required]
         public double Weight { get; set; }
+    }
 
-        public ReportEntry(string line)
+    public class ReportEntryMap : ClassMap<ReportEntry>
+    {
+        public ReportEntryMap()
         {
-            string[] values = line.Split(',');
-
-            Date = GetDateTimeFromCSV(values[0]);
-            Fund = Convert.ToString(values[1]);
-            CompanyName = Convert.ToString(values[2]);
-            Ticker = Convert.ToString(values[3]);
-            Cusip = Convert.ToString(values[4]);
-            Shares = Convert.ToInt32(Regex.Replace(values[5], "[^0-9]", ""));
-            MarketValue = Convert.ToDouble(Regex.Replace(values[6], "[^0-9.]", ""));
-            Weight = Convert.ToDouble(Regex.Replace(values[7], "[^0-9.]", ""));
-        }
-
-        private DateTime GetDateTimeFromCSV(string date)
-        {
-            var oneDigitMonth = "M/dd/yyyy";
-            var twoDigitMonth = "MM/dd/yyyy";
-            var format = Char.IsDigit(date[1]) ? twoDigitMonth : oneDigitMonth;
-            return DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
+            Map(m => m.Date).Name("date");
+            Map(m => m.Fund).Name("fund");
+            Map(m => m.CompanyName).Name("company");
+            Map(m => m.Ticker).Name("ticker");
+            Map(m => m.Cusip).Name("cusip").Optional();
+            Map(m => m.Shares).Convert(row =>
+            {
+                var s = row.Row.GetField("shares")!;
+                return int.Parse(s, NumberStyles.AllowThousands);
+            });
+            Map(m => m.MarketValue).Convert(row =>
+            {
+                var m = row.Row.GetField("market value ($)")!;
+                return decimal.Parse(m, NumberStyles.Currency);
+            });
+            Map(m => m.Weight).Convert(row => {
+                var w = row.Row.GetField("weight (%)")?.Replace("%","")!;
+                return double.Parse(w);
+            });
         }
     }
 }

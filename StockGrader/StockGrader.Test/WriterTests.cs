@@ -1,5 +1,6 @@
-using StockGrader.Domain.Model;
+using Moq;
 using StockGrader.Evaluator;
+using StockGrader.Infrastructure.Repository;
 using StockGrader.Writer;
 namespace StockGrader.Test
 {
@@ -106,10 +107,12 @@ namespace StockGrader.Test
 
         private DiffProvider GetDiffProvider(string filePathOld, string filePathNew)
         {
-            StockReport stockReportOld = new StockReport(filePathOld);
-            StockReport stockReportNew = new StockReport(filePathNew);
+            var stockRepositoryOld = new StockRepository(Mock.Of<FileRepository>(), Mock.Of<Uri>(), filePathOld);
+            var stockRepositoryNew = new StockRepository(Mock.Of<FileRepository>(), Mock.Of<Uri>(), filePathNew);
+            var stockReportOld = stockRepositoryOld.GetLast();
+            var stockReportNew = stockRepositoryNew.GetLast();
 
-            DiffProvider diffProvider = new DiffProvider();
+            var diffProvider = new DiffProvider();
             diffProvider.CalculateDiff(stockReportOld.Entries, stockReportNew.Entries);
             return diffProvider;
         }

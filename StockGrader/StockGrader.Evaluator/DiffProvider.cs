@@ -53,18 +53,19 @@ namespace StockGrader.Evaluator
                                                     newEntry.Value.Ticker,
                                                     newEntry.Value.Shares,
                                                     newEntry.Value.Weight);
-                    ((List<Position>)NewPositions).Add(newPosition);
+
+                    NewPositions.ToList().Add(newPosition);
                     oldEntries.Remove(newEntry.Key);
                     continue;
                 }
                 var oldEntryValue = oldEntries[newEntry.Key];
                 var shareChange = ComputeShareChangePercentage(oldEntryValue.Shares, newEntry.Value.Shares);
                 if (shareChange == 0) { 
-                    var unchangePosition = new Position(newEntry.Value.CompanyName,
+                    var unchangedPosition = new Position(newEntry.Value.CompanyName,
                                                         newEntry.Value.Ticker,
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight);
-                    ((List<Position>)UnchangedPositions).Add(unchangePosition);
+                    UnchangedPositions.ToList().Add(unchangedPosition);
                 }
                 else if (shareChange < 0)
                 { 
@@ -73,7 +74,7 @@ namespace StockGrader.Evaluator
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    ((List<UpdatedPosition>)ReducedPositions).Add(reducedPosition);
+                    ReducedPositions.ToList().Add(reducedPosition);
                 }
                 else
                 {
@@ -82,7 +83,7 @@ namespace StockGrader.Evaluator
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    ((List<UpdatedPosition>)IncreasedPositions).Add(increasedPosition);
+                    IncreasedPositions.ToList().Add(increasedPosition);
                 }
                 oldEntries.Remove(newEntry.Key);
             }
@@ -90,7 +91,7 @@ namespace StockGrader.Evaluator
             {
                 var removedPosition = new RemovedPosition(oldEntry.Value.CompanyName,
                                                     oldEntry.Value.Ticker);
-                ((List<RemovedPosition>)RemovedPositions).Add(removedPosition);
+                RemovedPositions.ToList().Add(removedPosition);
             }
         }
 

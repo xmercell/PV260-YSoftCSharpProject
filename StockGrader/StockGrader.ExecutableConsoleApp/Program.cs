@@ -1,16 +1,23 @@
-﻿using StockGrader.Domain.Model;
-using StockGrader.Evaluator;
+﻿using StockGrader.Evaluator;
+using StockGrader.Infrastructure.Repository;
 using StockGrader.Writer;
 using System.Reflection;
 
-var FilePathOld = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
-var FilePathNew = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
 
-StockReport stockReportOld = new StockReport(FilePathOld);
-StockReport stockReportNew = new StockReport(FilePathNew);
+// TODO: configure from out (appsettings or something like that - not hardcoded)
+var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
+var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
 
-DiffProvider diffProvider = new DiffProvider();
-diffProvider.CalculateDiff(stockReportOld.Entries, stockReportNew.Entries);
+// TODO: use DI
+var fileRepository = new FileRepository();
+IStockRepository stockRepository = new StockRepository(fileRepository, url, filePath);
+
+var oldReport = stockRepository.GetLast();
+await stockRepository.FetchNew();
+var newReport = stockRepository.GetLast();
+
+var diffProvider = new DiffProvider();
+diffProvider.CalculateDiff(oldReport.Entries, newReport.Entries);
 
 var writer = new ConsoleWriter(diffProvider);
 
