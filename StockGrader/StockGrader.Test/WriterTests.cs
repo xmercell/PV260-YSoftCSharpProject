@@ -2,7 +2,6 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using StockGrader.Evaluator;
 using StockGrader.Infrastructure.Repository;
-using StockGrader.Infrastructure.Services;
 using StockGrader.Writer;
 namespace StockGrader.Test
 {
@@ -115,8 +114,8 @@ namespace StockGrader.Test
 
         private DiffProvider GetDiffProvider(string filePathOld, string filePathNew)
         {
-            var stockRepositoryOld = new StockRepository(Mock.Of<FileService>(), new Uri("http://www.uri.cz"), filePathOld);
-            var stockRepositoryNew = new StockRepository(Mock.Of<FileService>(), new Uri("http://www.uri.cz"), filePathNew);
+            var stockRepositoryOld = new StockRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathOld);
+            var stockRepositoryNew = new StockRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathNew);
             var stockReportOld = stockRepositoryOld.GetLast();
             var stockReportNew = stockRepositoryNew.GetLast();
 

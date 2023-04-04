@@ -5,15 +5,11 @@ namespace StockGrader.Infrastructure.Repository
     public interface IStockRepository
     {
         /// <summary>
-        /// Fetch fresh new stock report
+        /// Fetch fresh stock report from csv file on the web address: 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New stock report parsed from csv</returns>
         Task FetchNew();
 
-        /// <summary>
-        /// Get last fetched stock report
-        /// </summary>
-        /// <returns>Last stock report</returns>
         StockReport GetLast();
     }
 }

@@ -1,27 +1,26 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using StockGrader.Domain.Model;
-using StockGrader.Infrastructure.Services;
 using System.Globalization;
 
 namespace StockGrader.Infrastructure.Repository
 {
     public class StockRepository : IStockRepository
     {
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileRepository;
         private readonly Uri _holdingsSheetUri;
         private readonly string _reportFilePath;
 
-        public StockRepository(IFileService fileService, Uri holdingsSheetUri, string reportFilePath)
+        public StockRepository(IFileRepository fileRepository, Uri holdingsSheetUri, string reportFilePath)
         {
-            _fileService = fileService;
+            _fileRepository = fileRepository;
             _holdingsSheetUri = holdingsSheetUri;
             _reportFilePath = reportFilePath;
         }
 
         public async Task FetchNew()
         {
-            await _fileService.Fetch(_holdingsSheetUri, _reportFilePath);
+            await _fileRepository.Fetch(_holdingsSheetUri, _reportFilePath);
         }
 
         public StockReport GetLast()
