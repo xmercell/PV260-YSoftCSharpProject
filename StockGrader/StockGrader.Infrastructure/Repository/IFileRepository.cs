@@ -1,6 +1,6 @@
-﻿namespace StockGrader.Infrastructure.Services
+﻿namespace StockGrader.Infrastructure.Repository
 {
-    public interface IFileService
+    public interface IFileRepository
     {
         /// <summary>
         /// Download the web resource and save it into the file system folder.
