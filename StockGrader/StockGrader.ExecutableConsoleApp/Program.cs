@@ -12,7 +12,6 @@ internal class Program
         var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
         var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
 
-        // TODO: use DI
         var serviceCollection = new ServiceCollection()
             .AddTransient<IRunner, Runner>();
         serviceCollection.InstallDal(url, filePath);
