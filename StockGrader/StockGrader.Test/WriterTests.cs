@@ -23,7 +23,8 @@ namespace StockGrader.Test
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
-            var writer = new ConsoleWriter(diffProvider);
+            var writer = new ConsoleWriter();
+            writer.Write(diffProvider);
 
             //Assert
             Assert.That(GetStringLength(writer.IncreasedText) == 1);
@@ -48,7 +49,8 @@ namespace StockGrader.Test
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
-            var writer = new ConsoleWriter(diffProvider);
+            var writer = new ConsoleWriter();
+            writer.Write(diffProvider);
 
             //Assert
             Assert.That(GetStringLength(writer.NewText) == 1);
@@ -66,7 +68,8 @@ namespace StockGrader.Test
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
-            var writer = new ConsoleWriter(diffProvider);
+            var writer = new ConsoleWriter();
+            writer.Write(diffProvider);
 
             //Assert
             Assert.That(GetStringLength(writer.NewText) == 1);
@@ -84,7 +87,8 @@ namespace StockGrader.Test
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
-            var writer = new ConsoleWriter(diffProvider);
+            var writer = new ConsoleWriter();
+            writer.Write(diffProvider);
 
             //Assert
             Assert.That(GetStringLength(writer.NewText) == 1);
@@ -103,7 +107,8 @@ namespace StockGrader.Test
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
-            var writer = new ConsoleWriter(diffProvider);
+            var writer = new ConsoleWriter();
+            writer.Write(diffProvider);
 
             //Assert
             Assert.That(GetStringLength(writer.IncreasedText) == 1);

@@ -3,7 +3,7 @@ using StockGrader.BL.Model;
 
 namespace StockGrader.BL.Writer
 {
-    public class ConsoleWriter : IConsoleWriter
+    public class ConsoleWriter : IWriter
     {
         public string IncreasedText { get; set; } = string.Empty;
         public string NewText { get; set; } = string.Empty;
@@ -11,7 +11,7 @@ namespace StockGrader.BL.Writer
         public string RemovedText { get; set; } = string.Empty;
         public string ReducedText { get; set; } = string.Empty;
 
-        public ConsoleWriter(DiffProvider diffProvider)
+        public void Write(IDiffProvider diffProvider)
         {
             NewText = NewPositions(diffProvider.NewPositions);
             IncreasedText = IncreasedPositions(diffProvider.IncreasedPositions);
@@ -19,6 +19,11 @@ namespace StockGrader.BL.Writer
             UnchangedText = UnchangedPositions(diffProvider.UnchangedPositions);
             RemovedText = RemovedPositions(diffProvider.RemovedPositions);
 
+            Console.WriteLine(NewText);
+            Console.WriteLine(IncreasedText);
+            Console.WriteLine(ReducedText);
+            Console.WriteLine(UnchangedText);
+            Console.WriteLine(RemovedText);
         }
 
         private string IncreasedPositions(IEnumerable<UpdatedPosition> IncreasedPositions)

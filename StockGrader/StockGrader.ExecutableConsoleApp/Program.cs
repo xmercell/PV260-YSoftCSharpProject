@@ -19,7 +19,8 @@ var newReport = stockRepository.GetLast();
 var diffProvider = new DiffProvider();
 diffProvider.CalculateDiff(oldReport.Entries, newReport.Entries);
 
-var writer = new ConsoleWriter(diffProvider);
+var writer = new ConsoleWriter();
+writer.Write(diffProvider);
 
 Console.WriteLine(writer.NewText);
 Console.WriteLine(writer.IncreasedText);
