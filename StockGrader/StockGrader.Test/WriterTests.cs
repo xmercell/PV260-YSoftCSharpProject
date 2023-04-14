@@ -119,8 +119,8 @@ namespace StockGrader.Test
 
         private DiffProvider GetDiffProvider(string filePathOld, string filePathNew)
         {
-            var stockRepositoryOld = new StockRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathOld);
-            var stockRepositoryNew = new StockRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathNew);
+            var stockRepositoryOld = new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathOld);
+            var stockRepositoryNew = new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathNew);
             var stockReportOld = stockRepositoryOld.GetLast();
             var stockReportNew = stockRepositoryNew.GetLast();
 

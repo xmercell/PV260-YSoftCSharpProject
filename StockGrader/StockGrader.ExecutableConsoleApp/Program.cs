@@ -1,29 +1,26 @@
-﻿using StockGrader.BL;
-using StockGrader.BL.Writer;
-using StockGrader.DAL.Repository;
+﻿using Microsoft.Extensions.DependencyInjection;
+using StockGrader.BL;
+using StockGrader.DAL;
+using StockGrader.ExecutableConsoleApp;
 using System.Reflection;
 
+internal class Program
+{
+    private static async Task Main(string[] args)
+    {
+        // TODO: configure from out (appsettings or something like that - not hardcoded)
+        var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
+        var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
 
-// TODO: configure from out (appsettings or something like that - not hardcoded)
-var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Test\\TestFiles\\ARK_ORIGINAL.csv");
-var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
+        // TODO: use DI
+        var serviceCollection = new ServiceCollection()
+            .AddTransient<IRunner, Runner>();
+        serviceCollection.InstallDal(url, filePath);
+        serviceCollection.InstallBl();
 
-// TODO: use DI
-var fileRepository = new FileRepository();
-IStockRepository stockRepository = new StockRepository(fileRepository, url, filePath);
+        var serviceProvider = serviceCollection.BuildServiceProvider();
 
-var oldReport = stockRepository.GetLast();
-await stockRepository.FetchNew();
-var newReport = stockRepository.GetLast();
-
-var diffProvider = new DiffProvider();
-diffProvider.CalculateDiff(oldReport.Entries, newReport.Entries);
-
-var writer = new ConsoleWriter();
-writer.Write(diffProvider);
-
-Console.WriteLine(writer.NewText);
-Console.WriteLine(writer.IncreasedText);
-Console.WriteLine(writer.ReducedText);
-Console.WriteLine(writer.UnchangedText);
-Console.WriteLine(writer.RemovedText);
+        var runner = serviceProvider.GetService<IRunner>();
+        await runner.Run();
+    }
+}
