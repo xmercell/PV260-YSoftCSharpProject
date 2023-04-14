@@ -5,13 +5,13 @@ using System.Globalization;
 
 namespace StockGrader.DAL.Repository
 {
-    public class StockRepository : IStockRepository
+    public class StockDiscRepository : IStockRepository
     {
         private readonly IFileRepository _fileRepository;
         private readonly Uri _holdingsSheetUri;
         private readonly string _reportFilePath;
 
-        public StockRepository(IFileRepository fileRepository, Uri holdingsSheetUri, string reportFilePath)
+        public StockDiscRepository(IFileRepository fileRepository, Uri holdingsSheetUri, string reportFilePath)
         {
             _fileRepository = fileRepository;
             _holdingsSheetUri = holdingsSheetUri;

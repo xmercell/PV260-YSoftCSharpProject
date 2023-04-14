@@ -6,11 +6,11 @@ namespace StockGrader.BL
 {
     public class DiffProvider : IDiffProvider
     {
-        public IEnumerable<Position> NewPositions = new List<Position>();
-        public IEnumerable<Position> UnchangedPositions = new List<Position>();
-        public IEnumerable<UpdatedPosition> IncreasedPositions = new List<UpdatedPosition>();
-        public IEnumerable<UpdatedPosition> ReducedPositions = new List<UpdatedPosition>();
-        public IEnumerable<RemovedPosition> RemovedPositions = new List<RemovedPosition>();
+        public IEnumerable<Position> NewPositions { get; } = new List<Position>();
+        public IEnumerable<Position> UnchangedPositions { get; } = new List<Position>();
+        public IEnumerable<UpdatedPosition> IncreasedPositions { get; } = new List<UpdatedPosition>();
+        public IEnumerable<UpdatedPosition> ReducedPositions { get; } = new List<UpdatedPosition>();
+        public IEnumerable<RemovedPosition> RemovedPositions { get; } = new List<RemovedPosition>();
 
         public void CalculateDiff(IEnumerable<ReportEntry> oldEntries, IEnumerable<ReportEntry> newEntries)
         {
