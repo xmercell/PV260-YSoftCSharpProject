@@ -1,6 +1,6 @@
 ﻿using StockGrader.DAL.Model;
 
-namespace StockGrader.Evaluator
+namespace StockGrader.BL
 {
     public interface IDiffProvider
     {

@@ -1,8 +1,8 @@
 ﻿using StockGrader.DAL.Model;
-using StockGrader.Evaluator.Exceptions;
-using StockGrader.Evaluator.Model;
+using StockGrader.BL.Exception;
+using StockGrader.BL.Model;
 
-namespace StockGrader.Evaluator
+namespace StockGrader.BL
 {
     public class DiffProvider : IDiffProvider
     {
