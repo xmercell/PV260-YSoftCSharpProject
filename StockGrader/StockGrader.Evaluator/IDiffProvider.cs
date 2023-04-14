@@ -1,4 +1,4 @@
-﻿using StockGrader.Domain.Model;
+﻿using StockGrader.DAL.Model;
 
 namespace StockGrader.Evaluator
 {

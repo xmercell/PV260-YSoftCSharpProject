@@ -1,5 +1,5 @@
 ﻿using StockGrader.Evaluator;
-using StockGrader.Infrastructure.Repository;
+using StockGrader.DAL.Repository;
 using StockGrader.Writer;
 using System.Reflection;
 

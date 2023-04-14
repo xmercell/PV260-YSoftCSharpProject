@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockGrader.Domain\StockGrader.Domain.csproj" />
     <ProjectReference Include="..\StockGrader.Evaluator\StockGrader.Evaluator.csproj" />
   </ItemGroup>
 

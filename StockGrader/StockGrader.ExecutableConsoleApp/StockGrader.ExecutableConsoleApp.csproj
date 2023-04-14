@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockGrader.Domain\StockGrader.Domain.csproj" />
+    <ProjectReference Include="..\StockGrader.DAL\StockGrader.DAL.csproj" />
     <ProjectReference Include="..\StockGrader.Evaluator\StockGrader.Evaluator.csproj" />
-    <ProjectReference Include="..\StockGrader.Infrastructure\StockGrader.Infrastructure.csproj" />
     <ProjectReference Include="..\StockGrader.Writer\StockGrader.Writer.csproj" />
   </ItemGroup>
 

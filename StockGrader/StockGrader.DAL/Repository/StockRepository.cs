@@ -1,9 +1,9 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using StockGrader.Domain.Model;
+using StockGrader.DAL.Model;
 using System.Globalization;
 
-namespace StockGrader.Infrastructure.Repository
+namespace StockGrader.DAL.Repository
 {
     public class StockRepository : IStockRepository
     {
