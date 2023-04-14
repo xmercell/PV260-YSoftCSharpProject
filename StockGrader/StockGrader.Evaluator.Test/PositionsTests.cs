@@ -1,6 +1,6 @@
-﻿using StockGrader.Evaluator.Model;
+﻿using StockGrader.BL.Model;
 
-namespace StockGrader.Evaluator.Test
+namespace StockGrader.BL.Test
 {
     public class PositionsTests
     {

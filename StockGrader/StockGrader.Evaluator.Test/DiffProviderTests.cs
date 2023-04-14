@@ -1,8 +1,7 @@
-﻿using StockGrader.Domain.Model;
-using StockGrader.Evaluator.Exceptions;
-using StockGrader.Evaluator.Model;
+﻿using StockGrader.DAL.Model;
+using StockGrader.BL.Exception;
 
-namespace StockGrader.Evaluator.Test
+namespace StockGrader.BL.Test
 {
     public class DiffProviderTests
     {

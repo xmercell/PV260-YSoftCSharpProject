@@ -1,6 +1,6 @@
-﻿using StockGrader.Evaluator;
-using StockGrader.Infrastructure.Repository;
-using StockGrader.Writer;
+﻿using StockGrader.BL;
+using StockGrader.BL.Writer;
+using StockGrader.DAL.Repository;
 using System.Reflection;
 
 

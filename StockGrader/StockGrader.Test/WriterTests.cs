@@ -1,8 +1,8 @@
 using Moq;
-using Newtonsoft.Json.Linq;
-using StockGrader.Evaluator;
-using StockGrader.Infrastructure.Repository;
-using StockGrader.Writer;
+using StockGrader.BL;
+using StockGrader.DAL.Repository;
+using StockGrader.BL.Writer;
+
 namespace StockGrader.Test
 {
     public class Tests

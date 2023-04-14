@@ -4,29 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StockGrader.Evaluator.Model
+namespace StockGrader.BL.Model
 {
-    public class Position
+    public class RemovedPosition
     {
         public string CompanyName { get; }
 
         public string Ticker { get; }
 
-        public int Shares { get; }
-
-        public double Weight { get; }
-
-        public Position(string companyName, string ticker, int shares, double weight)
+        public RemovedPosition(string companyName, string ticker)
         {
             CompanyName = companyName;
             Ticker = ticker;
-            Shares = shares;
-            Weight = weight;
         }
 
         public override string ToString()
         {
-            return $"{CompanyName}, {Ticker}, {Shares}, {Weight}";
+            return $"{CompanyName}, {Ticker}";
         }
     }
 }

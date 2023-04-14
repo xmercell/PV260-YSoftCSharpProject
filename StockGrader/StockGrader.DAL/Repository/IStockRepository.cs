@@ -1,6 +1,6 @@
-﻿using StockGrader.Domain.Model;
+﻿using StockGrader.DAL.Model;
 
-namespace StockGrader.Infrastructure.Repository
+namespace StockGrader.DAL.Repository
 {
     public interface IStockRepository
     {

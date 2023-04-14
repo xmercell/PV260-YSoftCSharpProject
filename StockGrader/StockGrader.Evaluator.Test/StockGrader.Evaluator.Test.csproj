@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StockGrader.Evaluator\StockGrader.Evaluator.csproj" />
+    <ProjectReference Include="..\StockGrader.BL\StockGrader.BL.csproj" />
   </ItemGroup>
 
 </Project>

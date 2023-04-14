@@ -1,4 +1,4 @@
-﻿namespace StockGrader.Infrastructure.Repository
+﻿namespace StockGrader.DAL.Repository
 {
     public interface IFileRepository
     {
