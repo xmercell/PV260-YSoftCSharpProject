@@ -26,7 +26,11 @@ namespace StockGrader.DAL.Model
     {
         public ReportEntryMap()
         {
-            Map(m => m.Date).Name("date");
+            Map(m => m.Date).Convert(row =>
+            {
+                var s = row.Row.GetField("date")!;
+                return DateTime.ParseExact(s, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            });
             Map(m => m.Fund).Name("fund");
             Map(m => m.CompanyName).Name("company");
             Map(m => m.Ticker).Name("ticker");

@@ -43,7 +43,11 @@ namespace StockGrader.DAL.Repository
                 {
                     if (row.Row.HeaderRecord != null)
                     {
-                        return !DateTime.TryParse(row.Row.GetField("date"), out _);
+                        return !DateTime.TryParseExact(row.Row.GetField("date"), 
+                                "MM/dd/yyyy",
+                                CultureInfo.InvariantCulture,
+                                DateTimeStyles.None,
+                                out _);
                     }
                     return false;
                 }

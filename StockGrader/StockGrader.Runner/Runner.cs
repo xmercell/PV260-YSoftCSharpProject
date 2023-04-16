@@ -2,9 +2,9 @@
 using StockGrader.BL;
 using StockGrader.DAL.Repository;
 
-namespace StockGrader.ExecutableConsoleApp
+namespace StockGrader.Runner
 {
-    internal class Runner : IRunner
+    public class Runner : IRunner
     {
         private readonly IStockRepository _stockRepository;
         private readonly IDiffProvider _diffProvider;
