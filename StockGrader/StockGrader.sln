@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Writer.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.ExecutableConsoleApp", "StockGrader.ExecutableConsoleApp\StockGrader.ExecutableConsoleApp.csproj", "{470311CE-744F-49AE-A4C8-6D3F5029BAAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Evaluator.Test", "StockGrader.Evaluator.Test\StockGrader.Evaluator.Test.csproj", "{42213968-76DC-463C-96B1-76A78AB6CBDB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.DAL", "StockGrader.DAL\StockGrader.DAL.csproj", "{4BFBAE53-E0E7-419D-9E2D-A42ECCAAD81D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.BL", "StockGrader.BL\StockGrader.BL.csproj", "{D5489213-F9C1-43D8-9EAB-B75FB87C53E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.Runner", "StockGrader.Runner\StockGrader.Runner.csproj", "{F7B081D7-FE5E-473A-8522-A6E7F25BE9D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockGrader.Runner", "StockGrader.Runner\StockGrader.Runner.csproj", "{F7B081D7-FE5E-473A-8522-A6E7F25BE9D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockGrader.BL.Test", "StockGrader.BL.Test\StockGrader.BL.Test.csproj", "{E2618532-F254-4D4E-AD27-59D8ED85028B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470311CE-744F-49AE-A4C8-6D3F5029BAAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42213968-76DC-463C-96B1-76A78AB6CBDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BFBAE53-E0E7-419D-9E2D-A42ECCAAD81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BFBAE53-E0E7-419D-9E2D-A42ECCAAD81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BFBAE53-E0E7-419D-9E2D-A42ECCAAD81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{F7B081D7-FE5E-473A-8522-A6E7F25BE9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7B081D7-FE5E-473A-8522-A6E7F25BE9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7B081D7-FE5E-473A-8522-A6E7F25BE9D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2618532-F254-4D4E-AD27-59D8ED85028B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2618532-F254-4D4E-AD27-59D8ED85028B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2618532-F254-4D4E-AD27-59D8ED85028B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2618532-F254-4D4E-AD27-59D8ED85028B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

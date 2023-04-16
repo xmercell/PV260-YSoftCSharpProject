@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using StockGrader.BL.Model;
+
 
 namespace StockGrader.BL.Writer
 {
@@ -19,14 +21,14 @@ namespace StockGrader.BL.Writer
             UnchangedText = UnchangedPositions(diffProvider.UnchangedPositions);
             RemovedText = RemovedPositions(diffProvider.RemovedPositions);
 
-            Console.WriteLine(NewText);
-            Console.WriteLine(IncreasedText);
-            Console.WriteLine(ReducedText);
-            Console.WriteLine(UnchangedText);
-            Console.WriteLine(RemovedText);
+            Console.Write(NewText);
+            Console.Write(IncreasedText);
+            Console.Write(ReducedText);
+            Console.Write(UnchangedText);
+            Console.Write(RemovedText);
         }
 
-        private string IncreasedPositions(IEnumerable<UpdatedPosition> IncreasedPositions)
+        internal string IncreasedPositions(IEnumerable<UpdatedPosition> IncreasedPositions)
         {
             var result = new StringBuilder($"Increased positions:{Environment.NewLine}");
             foreach (var pos in IncreasedPositions)
@@ -38,7 +40,7 @@ namespace StockGrader.BL.Writer
             return result.ToString();   
         }
 
-        private string NewPositions(IEnumerable<Position> NewPositions)
+        internal string NewPositions(IEnumerable<Position> NewPositions)
         {
             var result = new StringBuilder($"New positions:{Environment.NewLine}");
             foreach (var pos in NewPositions)
@@ -49,7 +51,7 @@ namespace StockGrader.BL.Writer
             return result.ToString();
         }
 
-        private string ReducedPositions(IEnumerable<UpdatedPosition> ReducedPositions)
+        internal string ReducedPositions(IEnumerable<UpdatedPosition> ReducedPositions)
         {
             var result = new StringBuilder($"Reduced positions:{Environment.NewLine}");
             foreach (var pos in ReducedPositions)
@@ -60,7 +62,7 @@ namespace StockGrader.BL.Writer
             return result.ToString();
         }
 
-        private string RemovedPositions(IEnumerable<RemovedPosition> RemovedPositions)
+        internal string RemovedPositions(IEnumerable<RemovedPosition> RemovedPositions)
         {
             var result = new StringBuilder($"Removed positions:{Environment.NewLine}");
             foreach (var pos in RemovedPositions)
@@ -71,7 +73,7 @@ namespace StockGrader.BL.Writer
             return result.ToString();
         }
 
-        private string UnchangedPositions(IEnumerable<Position> UnchangedPositions)
+        internal string UnchangedPositions(IEnumerable<Position> UnchangedPositions)
         {
             var result = new StringBuilder($"Unchanged positions:{Environment.NewLine}");
             foreach (var pos in UnchangedPositions)
