@@ -62,19 +62,19 @@ namespace StockGrader.BL.Test
 
                 _consoleWriter.Write(_fakeDiffProvider);
                 // Assert
-                var expectedOutput = "New positions:" + Environment.NewLine +
+                var expectedOutput = "New positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                      "Company C, C, 80, 15(%)" + Environment.NewLine +
                                      "Company D, D, 60, 10(%)" + Environment.NewLine + Environment.NewLine +
-                                     "Increased positions:" + Environment.NewLine +
+                                     "Increased positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
                                      "Company A, A, 120( 🔺 5%), 20(%)" + Environment.NewLine +
                                      "Company B, B, 140( 🔺 10%), 25(%)" + Environment.NewLine + Environment.NewLine +
-                                     "Reduced positions:" + Environment.NewLine +
+                                     "Reduced positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
                                      "Company E, E, 100( 🔻 8%), 22(%)" + Environment.NewLine +
                                      "Company F, F, 90( 🔻 5%), 20(%)" + Environment.NewLine + Environment.NewLine +
-                                     "Unchanged positions:" + Environment.NewLine +
+                                     "Unchanged positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                      "Company I, I, 150, 30(%)" + Environment.NewLine +
                                      "Company J, J, 130, 26(%)" + Environment.NewLine + Environment.NewLine +
-                                     "Removed positions:" + Environment.NewLine +
+                                     "Removed positions:" + Environment.NewLine + $"Company Name, Ticker{Environment.NewLine}" +
                                      "Company G, G" + Environment.NewLine +
                                      "Company H, H" + Environment.NewLine + Environment.NewLine;
                 Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
@@ -96,7 +96,7 @@ namespace StockGrader.BL.Test
             var result = _consoleWriter.IncreasedPositions(increasedPositions);
 
             // Assert
-            var expectedString = "Increased positions:" + Environment.NewLine +
+            var expectedString = "Increased positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
                                  "Company A, A, 120( 🔺 5%), 20(%)" + Environment.NewLine +
                                  "Company B, B, 140( 🔺 10%), 25(%)" + Environment.NewLine + Environment.NewLine;
             Assert.That(result, Is.EqualTo(expectedString));
@@ -115,7 +115,7 @@ namespace StockGrader.BL.Test
             var result = _consoleWriter.NewPositions(newPositions);
 
             // Assert
-            var expectedString = "New positions:" + Environment.NewLine +
+            var expectedString = "New positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                  "Company C, C, 80, 15(%)" + Environment.NewLine +
                                  "Company D, D, 60, 10(%)" + Environment.NewLine + Environment.NewLine;
             Assert.That(result, Is.EqualTo(expectedString));
@@ -135,7 +135,7 @@ namespace StockGrader.BL.Test
             var result = _consoleWriter.ReducedPositions(reducedPositions);
 
             // Assert
-            var expectedString = "Reduced positions:" + Environment.NewLine +
+            var expectedString = "Reduced positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
                                  "Company E, E, 100( 🔻 8%), 22(%)" + Environment.NewLine +
                                  "Company F, F, 90( 🔻 5%), 20(%)" + Environment.NewLine + Environment.NewLine;
             Assert.That(result, Is.EqualTo(expectedString));
@@ -155,7 +155,7 @@ namespace StockGrader.BL.Test
             var result = _consoleWriter.RemovedPositions(removedPositions);
 
             // Assert
-            var expectedString = "Removed positions:" + Environment.NewLine +
+            var expectedString = "Removed positions:" + Environment.NewLine + $"Company Name, Ticker{Environment.NewLine}" +
                                  "Company G, G" + Environment.NewLine +
                                  "Company H, H" + Environment.NewLine + Environment.NewLine;
             Assert.That(result, Is.EqualTo(expectedString));
@@ -175,7 +175,7 @@ namespace StockGrader.BL.Test
             var result = _consoleWriter.UnchangedPositions(unchangedPositions);
 
             // Assert
-            var expectedString = "Unchanged positions:" + Environment.NewLine +
+            var expectedString = "Unchanged positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                  "Company I, I, 150, 30(%)" + Environment.NewLine +
                                  "Company J, J, 130, 26(%)" + Environment.NewLine + Environment.NewLine;
             Assert.That(result, Is.EqualTo(expectedString));

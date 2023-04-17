@@ -27,15 +27,13 @@ namespace StockGrader.Test
             writer.Write(diffProvider);
 
             //Assert
-            Assert.That(GetStringLength(writer.IncreasedText) == 1);
-            Assert.That(GetStringLength(writer.ReducedText) == 1);
-            Assert.That(GetStringLength(writer.RemovedText) == 1);
-            
-            //Assert.Equals(writer.IncreasedText, "\"TESLA INC\", TSLA, spravne cisla");
+            Assert.That(GetRowCount(writer.IncreasedText) == 2);
+            Assert.That(GetRowCount(writer.ReducedText) == 2);
+            Assert.That(GetRowCount(writer.RemovedText) == 2);
 
         }
 
-        private static int GetStringLength(string value)
+        private static int GetRowCount(string value)
         {
             return value.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)).ToArray().Length;
         }
@@ -53,10 +51,9 @@ namespace StockGrader.Test
             writer.Write(diffProvider);
 
             //Assert
-            Assert.That(GetStringLength(writer.NewText) == 1);
-            Assert.That(GetStringLength(writer.IncreasedText) == 1);
-            Assert.That(GetStringLength(writer.RemovedText) == 1);
-            //Assert.Equals(writer.ReducedText, "\"TESLA INC\", TSLA, spravne cisla");
+            Assert.That(GetRowCount(writer.NewText) == 2);
+            Assert.That(GetRowCount(writer.IncreasedText) == 2);
+            Assert.That(GetRowCount(writer.RemovedText) == 2);
         }
 
         [Test]
@@ -72,10 +69,9 @@ namespace StockGrader.Test
             writer.Write(diffProvider);
 
             //Assert
-            Assert.That(GetStringLength(writer.NewText) == 1);
-            Assert.That(GetStringLength(writer.ReducedText) == 1);
-            Assert.That(GetStringLength(writer.IncreasedText) == 1);
-            //Assert.Equals(writer.RemovedText, "");
+            Assert.That(GetRowCount(writer.NewText) == 2);
+            Assert.That(GetRowCount(writer.ReducedText) == 2);
+            Assert.That(GetRowCount(writer.IncreasedText) == 2);
         }
 
         [Test]
@@ -91,11 +87,10 @@ namespace StockGrader.Test
             writer.Write(diffProvider);
 
             //Assert
-            Assert.That(GetStringLength(writer.NewText) == 1);
-            Assert.That(GetStringLength(writer.IncreasedText) == 1);
-            Assert.That(GetStringLength(writer.ReducedText) == 1);
-            Assert.That(GetStringLength(writer.RemovedText) == 1);
-            //Assert.Equals(writer.UnchangedText, "");
+            Assert.That(GetRowCount(writer.NewText) == 2);
+            Assert.That(GetRowCount(writer.IncreasedText) == 2);
+            Assert.That(GetRowCount(writer.ReducedText) == 2);
+            Assert.That(GetRowCount(writer.RemovedText) == 2);
         }
 
         [Test]
@@ -111,10 +106,9 @@ namespace StockGrader.Test
             writer.Write(diffProvider);
 
             //Assert
-            Assert.That(GetStringLength(writer.IncreasedText) == 1);
-            Assert.That(GetStringLength(writer.ReducedText) == 1);
-            Assert.That(GetStringLength(writer.RemovedText) == 1);
-            //Assert.Equals(writer.NewText, "");
+            Assert.That(GetRowCount(writer.IncreasedText) == 2);
+            Assert.That(GetRowCount(writer.ReducedText) == 2);
+            Assert.That(GetRowCount(writer.RemovedText) == 2);
         }
 
         private DiffProvider GetDiffProvider(string filePathOld, string filePathNew)

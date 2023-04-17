@@ -33,17 +33,17 @@ namespace StockGrader.Writer.Test
             var consoleWriter = new ConsoleWriter();
             consoleWriter.Write(diffProvider);
 
-            var expectedOutput = $"New positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Increased positions:{Environment.NewLine}" +
+            var expectedOutput =  $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Increased positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021( 🔺 2.5%), 10(%){Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Reduced positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Unchanged positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Removed positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}";
+                                  $"{Environment.NewLine}" +
+                                  $"Reduced positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Unchanged positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Removed positions:{Environment.NewLine}" + $"Company Name, Ticker{Environment.NewLine}" +
+                                  $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
 
@@ -62,17 +62,17 @@ namespace StockGrader.Writer.Test
             var consoleWriter = new ConsoleWriter();
             consoleWriter.Write(diffProvider);
 
-            var expectedOutput = $"New positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Increased positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Reduced positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Unchanged positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Removed positions:{Environment.NewLine}" +
+            var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Increased positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Reduced positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Unchanged positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Removed positions:{Environment.NewLine}" + $"Company Name, Ticker{Environment.NewLine}" +
                                   $"TESLA INC, TSLA{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}";
+                                  $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
 
@@ -91,17 +91,17 @@ namespace StockGrader.Writer.Test
             var consoleWriter = new ConsoleWriter();
             consoleWriter.Write(diffProvider);
 
-            var expectedOutput = $"New positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Increased positions:{Environment.NewLine}" +
+            var expectedOutput = $"New positions:{Environment.NewLine}" +$"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Increased positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021( 🔻 2.5%), 10(%){Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Reduced positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Unchanged positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Removed positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}";
+                                  $"{Environment.NewLine}" +
+                                  $"Reduced positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Unchanged positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Removed positions:{Environment.NewLine}" + $"Company Name, Ticker{Environment.NewLine}" +
+                                  $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
 
@@ -119,17 +119,17 @@ namespace StockGrader.Writer.Test
             var consoleWriter = new ConsoleWriter();
             consoleWriter.Write(diffProvider);
 
-            var expectedOutput = $"New positions:{Environment.NewLine}" +
+            var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021, 10(%){Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Increased positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Reduced positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Unchanged positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Removed positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}";
+                                  $"{Environment.NewLine}" +
+                                  $"Increased positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Reduced positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Unchanged positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Removed positions:{Environment.NewLine}" + $"Company Name, Ticker{Environment.NewLine}" +
+                                  $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
 
@@ -147,17 +147,17 @@ namespace StockGrader.Writer.Test
             var consoleWriter = new ConsoleWriter();
             consoleWriter.Write(diffProvider);
 
-            var expectedOutput = $"New positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Increased positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Reduced positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Unchanged positions:{Environment.NewLine}" +
+            var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Increased positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Reduced positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares( 🔻 x%), Weight(%){Environment.NewLine}" +
+                                  $"{Environment.NewLine}" +
+                                  $"Unchanged positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021, 10(%){Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Removed positions:{Environment.NewLine}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}";
+                                  $"{Environment.NewLine}" +
+                                  $"Removed positions:{Environment.NewLine}" + $"Company Name, Ticker{Environment.NewLine}" +
+                                  $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
 
