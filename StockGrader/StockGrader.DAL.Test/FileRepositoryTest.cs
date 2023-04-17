@@ -11,11 +11,6 @@ namespace StockGrader.DAL.Test
 {
     public class FileRepositoryTest
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public async Task FetchTest()
         {

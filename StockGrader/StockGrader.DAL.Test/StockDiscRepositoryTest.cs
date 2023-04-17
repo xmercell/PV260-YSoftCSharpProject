@@ -9,11 +9,6 @@ namespace StockGrader.DAL.Test
 {
     public class StockDiscRepositoryTest
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public async Task GetLastTest()
         {
@@ -27,8 +22,6 @@ namespace StockGrader.DAL.Test
                 var stockReport = stockRep.GetLast();
 
                 Assert.That((lines.Length - 2), Is.EqualTo(stockReport.Entries.Count()));
-
-                
             }
             finally
             {
