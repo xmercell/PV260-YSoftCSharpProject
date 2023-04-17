@@ -20,19 +20,19 @@ namespace StockGrader.DAL.Test
         public async Task FetchTest()
         {
             var fileRep = new FileRepository();
-            var fileName = Path.GetTempFileName();
+            var filePath = Path.GetTempFileName();
 
             try
             {
-                await fileRep.Fetch(new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv"), fileName);
-                using StreamReader sr = new StreamReader(File.OpenRead(fileName));
+                await fileRep.Fetch(new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv"), filePath);
+                using StreamReader sr = new(File.OpenRead(filePath));
                 var header = await sr.ReadLineAsync();
                 Assert.That(header, Is.Not.Null);
                 Assert.That(header.Equals("date,fund,company,ticker,cusip,shares,\"market value ($)\",\"weight (%)\""));
             }
             finally
             {
-                File.Delete(fileName);
+                File.Delete(filePath);
             }
         }
     }
