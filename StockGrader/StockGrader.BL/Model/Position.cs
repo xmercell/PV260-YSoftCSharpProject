@@ -26,7 +26,7 @@ namespace StockGrader.BL.Model
 
         public override string ToString()
         {
-            return $"{CompanyName}, {Ticker}, {Shares}, {Weight}(%)";
+            return $"{CompanyName}, {Ticker}, {Shares}, {Math.Round(Weight,2)}(%)";
         }
     }
 }
