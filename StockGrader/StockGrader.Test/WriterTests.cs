@@ -10,15 +10,18 @@ namespace StockGrader.Test
         [SetUp]
         public void Setup()
         {
-            
         }
 
         [Test]
         public void IncreasedPositionTest()
         {
             //Arrange
-            var filePathOld = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_ORIGINAL.csv");
-            var filePathNew = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_CHANGED_INCREASED_TESLA.csv");
+            var filePathOld =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_ORIGINAL.csv");
+            var filePathNew =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_CHANGED_INCREASED_TESLA.csv");
 
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
@@ -30,9 +33,8 @@ namespace StockGrader.Test
             Assert.That(GetStringLength(writer.IncreasedText) == 1);
             Assert.That(GetStringLength(writer.ReducedText) == 1);
             Assert.That(GetStringLength(writer.RemovedText) == 1);
-            
-            //Assert.Equals(writer.IncreasedText, "\"TESLA INC\", TSLA, spravne cisla");
 
+            //Assert.Equals(writer.IncreasedText, "\"TESLA INC\", TSLA, spravne cisla");
         }
 
         private static int GetStringLength(string value)
@@ -44,8 +46,12 @@ namespace StockGrader.Test
         public void ReducedPositionTest()
         {
             //Arrange
-            var filePathOld = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_ORIGINAL.csv");
-            var filePathNew = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_CHANGED_REDUCED_TESLA.csv");
+            var filePathOld =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_ORIGINAL.csv");
+            var filePathNew =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_CHANGED_REDUCED_TESLA.csv");
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
@@ -63,8 +69,12 @@ namespace StockGrader.Test
         public void RemovedPositionTest()
         {
             //Arrange
-            var filePathOld = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_ORIGINAL.csv");
-            var filePathNew = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_CHANGED_REMOVED_TESLA.csv");
+            var filePathOld =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_ORIGINAL.csv");
+            var filePathNew =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_CHANGED_REMOVED_TESLA.csv");
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
@@ -82,8 +92,12 @@ namespace StockGrader.Test
         public void UnchangedPositionTest()
         {
             //Arrange
-            var filePathOld = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_ORIGINAL.csv");
-            var filePathNew = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_UNCHANGED.csv");
+            var filePathOld =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_ORIGINAL.csv");
+            var filePathNew =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_UNCHANGED.csv");
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
@@ -102,8 +116,12 @@ namespace StockGrader.Test
         public void NewPositionTest()
         {
             //Arrange
-            var filePathOld = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_ORIGINAL.csv");
-            var filePathNew = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!, "..\\TestFiles\\ARK_CHANGED_ADD_CUSTOMFIRM.csv");
+            var filePathOld =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_ORIGINAL.csv");
+            var filePathNew =
+                Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(TestContext.CurrentContext.TestDirectory))!,
+                    "..", "TestFiles", "ARK_CHANGED_ADD_CUSTOMFIRM.csv");
             DiffProvider diffProvider = GetDiffProvider(filePathOld, filePathNew);
 
             //Act
@@ -119,8 +137,10 @@ namespace StockGrader.Test
 
         private DiffProvider GetDiffProvider(string filePathOld, string filePathNew)
         {
-            var stockRepositoryOld = new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathOld);
-            var stockRepositoryNew = new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathNew);
+            var stockRepositoryOld =
+                new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathOld);
+            var stockRepositoryNew =
+                new StockDiscRepository(Mock.Of<FileRepository>(), new Uri("http://www.uri.cz"), filePathNew);
             var stockReportOld = stockRepositoryOld.GetLast();
             var stockReportNew = stockRepositoryNew.GetLast();
 
