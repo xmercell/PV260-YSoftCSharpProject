@@ -28,10 +28,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore StockGrader/StockGrader.sln
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build StockGrader/StockGrader.sln --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test StockGrader/StockGrader.sln --no-restore --verbosity normal
