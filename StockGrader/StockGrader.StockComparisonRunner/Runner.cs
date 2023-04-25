@@ -29,7 +29,7 @@ namespace StockGrader.StockComparisonRunner
                 await _stockRepository.FetchNew();
                 newReport = _stockRepository.GetLast();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 if (ex is LastStockNotFoundException || ex is NewStocksNotAvailableException)
                 {
