@@ -14,7 +14,7 @@
 
             using StreamReader reader = new(stream);
             var content = reader.ReadToEnd();
-            File.WriteAllText(location, content);
+            await File.WriteAllTextAsync(location, content);
         }
     }
 }
