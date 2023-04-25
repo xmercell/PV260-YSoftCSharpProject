@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StockGrader.DAL.Repository;
-using System.Runtime.CompilerServices;
 
 namespace StockGrader.DAL
 {

@@ -1,25 +1,34 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using StockGrader.BL;
 using StockGrader.DAL;
 using StockGrader.Runner;
+using StockGrader.Runner.Exception;
 using System.Reflection;
 
-internal class Program
+// TODO: configure from out (appsettings or something like that - not hardcoded)
+var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Runner\\StockFiles\\ARK_ORIGINAL.csv");
+
+var builder = new ConfigurationBuilder()
+        .SetBasePath(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName)
+        .AddJsonFile("config.json", optional: false);
+
+var config = builder.Build();
+
+var serviceCollection = new ServiceCollection()
+    .AddTransient<IConfiguration>(provider => config);
+serviceCollection.InstallRunner();
+serviceCollection.InstallDal(new Uri(config.GetValue<string>("StockUrl")), filePath);
+serviceCollection.InstallBl();
+
+var serviceProvider = serviceCollection.BuildServiceProvider();
+
+var runner = serviceProvider.GetService<IRunner>();
+try
 {
-    private static async Task Main(string[] args)
-    {
-        // TODO: configure from out (appsettings or something like that - not hardcoded)
-        var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Runner\\StockFiles\\ARK_ORIGINAL.csv");
-        var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
-
-        var serviceCollection = new ServiceCollection()
-            .AddTransient<IRunner, Runner>();
-        serviceCollection.InstallDal(url, filePath);
-        serviceCollection.InstallBl();
-
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-
-        var runner = serviceProvider.GetService<IRunner>();
-        await runner.Run();
-    }
+    await runner.Run();
+}
+catch (NewStocksNotAvailableException ex)
+{
+    Console.WriteLine(ex.Message);
 }
