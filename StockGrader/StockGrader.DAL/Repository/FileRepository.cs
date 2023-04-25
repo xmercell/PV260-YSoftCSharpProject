@@ -10,7 +10,7 @@
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.TryAddWithoutValidation(UserAgentHeader, CommonUserAgent);
-            var stream = await client.GetStreamAsync(address);
+            using var stream = await client.GetStreamAsync(address);
 
             using StreamReader reader = new(stream);
             var content = reader.ReadToEnd();
