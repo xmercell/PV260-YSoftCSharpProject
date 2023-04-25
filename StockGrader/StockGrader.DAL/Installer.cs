@@ -5,11 +5,11 @@ namespace StockGrader.DAL
 {
     public static class Installer
     {
-        public static void InstallDal(this IServiceCollection collection, Uri holdingsSheetUri, string reportFilePath)
+        public static void InstallDal(this IServiceCollection collection, Uri holdingsSheetUri, string reportFilePath, 
+            string userAgentHeader, string commonUserAgent)
         {
-            collection.AddTransient<IFileRepository, FileRepository>();
             collection.AddTransient<IStockRepository>(provider => 
-                new StockDiscRepository(provider.GetService<IFileRepository>(), holdingsSheetUri, reportFilePath));
+                new StockDiscRepository(holdingsSheetUri, reportFilePath, userAgentHeader, commonUserAgent));
         }
     }
 }

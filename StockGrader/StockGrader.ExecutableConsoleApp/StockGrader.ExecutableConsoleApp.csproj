@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StockGrader.BL\StockGrader.BL.csproj" />
     <ProjectReference Include="..\StockGrader.DAL\StockGrader.DAL.csproj" />
-    <ProjectReference Include="..\StockGrader.Runner\StockGrader.Runner.csproj" />
+    <ProjectReference Include="..\StockGrader.StockComparisonRunner\StockGrader.StockComparisonRunner.csproj" />
   </ItemGroup>
 
 </Project>

@@ -53,7 +53,7 @@ namespace StockGrader.BL.Test
             {
                 Console.SetOut(stringWriter);
 
-                _consoleWriter.Write(diff);
+                _consoleWriter.WriteStockComparison(diff);
                 // Assert
                 var expectedOutput = "New positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                      "Company C, C, 80, 15(%)" + Environment.NewLine +
@@ -187,7 +187,7 @@ namespace StockGrader.BL.Test
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diff);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -218,7 +218,7 @@ namespace StockGrader.BL.Test
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diff);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -250,7 +250,7 @@ namespace StockGrader.BL.Test
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diff);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -281,7 +281,7 @@ namespace StockGrader.BL.Test
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diff);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021, 10(%){Environment.NewLine}" +
@@ -312,7 +312,7 @@ namespace StockGrader.BL.Test
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diff);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +

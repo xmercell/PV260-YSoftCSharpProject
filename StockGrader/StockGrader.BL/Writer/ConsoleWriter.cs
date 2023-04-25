@@ -6,13 +6,18 @@ namespace StockGrader.BL.Writer
 {
     public class ConsoleWriter : IWriter
     {
-        public void Write(Diff diff)
+        public void WriteStockComparison(Diff diff)
         {
             Console.Write(NewPositions(diff.NewPositions));
             Console.Write(IncreasedPositions(diff.IncreasedPositions));
             Console.Write(ReducedPositions(diff.ReducedPositions));
             Console.Write(UnchangedPositions(diff.UnchangedPositions));
             Console.Write(RemovedPositions(diff.RemovedPositions));
+        }
+
+        public void WriteError(string message)
+        {
+            Console.WriteLine(message);
         }
 
         internal string IncreasedPositions(IEnumerable<UpdatedPosition> IncreasedPositions)

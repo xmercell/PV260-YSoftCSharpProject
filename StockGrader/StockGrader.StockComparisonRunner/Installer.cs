@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace StockGrader.Runner
+namespace StockGrader.StockComparisonRunner
 {
     public static class Installer
     {
-        public static void InstallRunner(this IServiceCollection collection)
+        public static void InstallStockComparisonRunner(this IServiceCollection collection)
         {
             collection.AddTransient<IRunner, Runner>();
         }

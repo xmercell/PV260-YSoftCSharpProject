@@ -4,6 +4,8 @@ namespace StockGrader.BL.Writer
 {
     public interface IWriter
     {
-        void Write(Diff diff);
+        void WriteStockComparison(Diff diff);
+
+        void WriteError(string message);
     }
 }

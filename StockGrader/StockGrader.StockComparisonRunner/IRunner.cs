@@ -1,4 +1,4 @@
-﻿namespace StockGrader.Runner
+﻿namespace StockGrader.StockComparisonRunner
 {
     public interface IRunner
     {
