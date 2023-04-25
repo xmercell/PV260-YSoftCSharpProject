@@ -23,9 +23,8 @@ namespace StockGrader.Runner
             await _stockRepository.FetchNew();
             var newReport = _stockRepository.GetLast();
 
-            _diffProvider.CalculateDiff(oldReport.Entries, newReport.Entries);
-
-            _writer.Write(_diffProvider);
+            var diff = _diffProvider.CalculateDiff(oldReport.Entries, newReport.Entries);
+            _writer.Write(diff);
 
         }
     }
