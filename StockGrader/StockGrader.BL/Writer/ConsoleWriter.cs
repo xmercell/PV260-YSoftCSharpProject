@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Text;
 using StockGrader.BL.Model;
 
 
@@ -7,25 +6,18 @@ namespace StockGrader.BL.Writer
 {
     public class ConsoleWriter : IWriter
     {
-        public string IncreasedText { get; set; } = string.Empty;
-        public string NewText { get; set; } = string.Empty;
-        public string UnchangedText { get; set; } = string.Empty;
-        public string RemovedText { get; set; } = string.Empty;
-        public string ReducedText { get; set; } = string.Empty;
-
-        public void Write(IDiffProvider diffProvider)
+        public void WriteStockComparison(Diff diff)
         {
-            NewText = NewPositions(diffProvider.NewPositions);
-            IncreasedText = IncreasedPositions(diffProvider.IncreasedPositions);
-            ReducedText = ReducedPositions(diffProvider.ReducedPositions); 
-            UnchangedText = UnchangedPositions(diffProvider.UnchangedPositions);
-            RemovedText = RemovedPositions(diffProvider.RemovedPositions);
+            Console.Write(NewPositions(diff.NewPositions));
+            Console.Write(IncreasedPositions(diff.IncreasedPositions));
+            Console.Write(ReducedPositions(diff.ReducedPositions));
+            Console.Write(UnchangedPositions(diff.UnchangedPositions));
+            Console.Write(RemovedPositions(diff.RemovedPositions));
+        }
 
-            Console.Write(NewText);
-            Console.Write(IncreasedText);
-            Console.Write(ReducedText);
-            Console.Write(UnchangedText);
-            Console.Write(RemovedText);
+        public void WriteError(string message)
+        {
+            Console.WriteLine(message);
         }
 
         internal string IncreasedPositions(IEnumerable<UpdatedPosition> IncreasedPositions)

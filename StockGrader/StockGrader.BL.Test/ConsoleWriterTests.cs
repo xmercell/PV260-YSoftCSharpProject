@@ -1,66 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using FakeItEasy;
-using NUnit.Framework;
+﻿using FakeItEasy;
 using StockGrader.BL.Model;
 using StockGrader.BL.Writer;
-using StockGrader.DAL.Repository;
 
 namespace StockGrader.BL.Test
 {
     public class ConsoleWriterTests
     {
         private ConsoleWriter _consoleWriter;
-        private IDiffProvider _fakeDiffProvider;
 
         [SetUp]
         public void SetUp()
         {
             _consoleWriter = new ConsoleWriter();
-            _fakeDiffProvider = A.Fake<IDiffProvider>();
         }
 
         [Test]
         public void Write_ShouldWriteCorrectOutput()
         {
             // Arrange
-            A.CallTo(() => _fakeDiffProvider.NewPositions).Returns(new List<Position>
+            var diff = new Diff()
             {
-                new Position("Company C", "C", 80, 15),
-                new Position("Company D", "D", 60, 10)
-            });
+                NewPositions = new List<Position>
+                {
+                    new Position("Company C", "C", 80, 15),
+                    new Position("Company D", "D", 60, 10)
+                },
+                IncreasedPositions = new List<UpdatedPosition>
+                {
+                    new UpdatedPosition("Company A", "A", 120, 20, 5),
+                    new UpdatedPosition("Company B", "B", 140, 25, 10)
+                },
+                ReducedPositions = new List<UpdatedPosition>
+                {
+                    new UpdatedPosition("Company E", "E", 100, 22, -8),
+                    new UpdatedPosition("Company F", "F", 90, 20, -5)
+                },
+                UnchangedPositions = new List<Position>
+                {
+                    new Position("Company I", "I", 150, 30),
+                    new Position("Company J", "J", 130, 26)
+                },
+                RemovedPositions = new List<RemovedPosition>
+                {
+                    new RemovedPosition("Company G", "G"),
+                    new RemovedPosition("Company H", "H")
+                }
+            };
 
-            A.CallTo(() => _fakeDiffProvider.IncreasedPositions).Returns(new List<UpdatedPosition>
-            {
-                new UpdatedPosition("Company A", "A", 120, 20, 5),
-                new UpdatedPosition("Company B", "B", 140, 25, 10)
-            });
-
-            A.CallTo(() => _fakeDiffProvider.ReducedPositions).Returns(new List<UpdatedPosition>
-            {
-                new UpdatedPosition("Company E", "E", 100, 22, -8),
-                new UpdatedPosition("Company F", "F", 90, 20, -5)
-            });
-
-            A.CallTo(() => _fakeDiffProvider.UnchangedPositions).Returns(new List<Position>
-            {
-                new Position("Company I", "I", 150, 30),
-                new Position("Company J", "J", 130, 26)
-            });
-
-            A.CallTo(() => _fakeDiffProvider.RemovedPositions).Returns(new List<RemovedPosition>
-            {
-                new RemovedPosition("Company G", "G"),
-                new RemovedPosition("Company H", "H")
-            });
-
+            
             // Act
             using (var stringWriter = new StringWriter())
             {
                 Console.SetOut(stringWriter);
 
-                _consoleWriter.Write(_fakeDiffProvider);
+                _consoleWriter.WriteStockComparison(diff);
                 // Assert
                 var expectedOutput = "New positions:" + Environment.NewLine + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                      "Company C, C, 80, 15(%)" + Environment.NewLine +
@@ -184,14 +177,17 @@ namespace StockGrader.BL.Test
         [Test]
         public void IncreseadPositionTest()
         {
-            var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.IncreasedPositions).Returns(new List<UpdatedPosition> { new UpdatedPosition("TESLA INC", "TSLA", 3986021, 10, 2.5) });
+            var diff = new Diff()
+            {
+                IncreasedPositions = new List<UpdatedPosition>
+                { new UpdatedPosition("TESLA INC", "TSLA", 3986021, 10, 2.5) }
+            };
 
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diffProvider);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -206,21 +202,23 @@ namespace StockGrader.BL.Test
                                   $"{Environment.NewLine}";
 
             Assert.That(stringWriter.ToString(), Is.EqualTo(expectedOutput));
-
         }
 
 
         [Test]
         public void RemovedPositionTest()
         {
-            var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.RemovedPositions).Returns(new List<RemovedPosition> { new RemovedPosition("TESLA INC", "TSLA") });
+            var diff = new Diff()
+            {
+                RemovedPositions = new List<RemovedPosition> 
+                { new RemovedPosition("TESLA INC", "TSLA") }
+            };
 
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diffProvider);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -242,14 +240,17 @@ namespace StockGrader.BL.Test
         [Test]
         public void ReducedPositionTest()
         {
-            var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.IncreasedPositions).Returns(new List<UpdatedPosition> { new UpdatedPosition("TESLA INC", "TSLA", 3986021, 10, -2.5) });
+            var diff = new Diff()
+            {
+                IncreasedPositions = new List<UpdatedPosition> 
+                { new UpdatedPosition("TESLA INC", "TSLA", 3986021, 10, -2.5) }
+            };
 
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diffProvider);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +
@@ -270,14 +271,17 @@ namespace StockGrader.BL.Test
         [Test]
         public void NewPositionTest()
         {
-            var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.NewPositions).Returns(new List<Position> { new Position("TESLA INC", "TSLA", 3986021, 10) });
+            var diff = new Diff()
+            {
+                NewPositions = new List<Position>
+                { new Position("TESLA INC", "TSLA", 3986021, 10) }
+            };
 
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diffProvider);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"TESLA INC, TSLA, 3986021, 10(%){Environment.NewLine}" +
@@ -298,14 +302,17 @@ namespace StockGrader.BL.Test
         [Test]
         public void UnchangedPositionTest()
         {
-            var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.UnchangedPositions).Returns(new List<Position> { new Position("TESLA INC", "TSLA", 3986021, 10) });
+            var diff = new Diff()
+            {
+                UnchangedPositions = new List<Position>
+                { new Position("TESLA INC", "TSLA", 3986021, 10) }
+            };
 
             var stringWriter = new StringWriter();
             Console.SetOut(stringWriter);
 
             var consoleWriter = new ConsoleWriter();
-            consoleWriter.Write(diffProvider);
+            consoleWriter.WriteStockComparison(diff);
 
             var expectedOutput = $"New positions:{Environment.NewLine}" + $"Company Name, Ticker, #Shares, Weight(%){Environment.NewLine}" +
                                   $"{Environment.NewLine}" +

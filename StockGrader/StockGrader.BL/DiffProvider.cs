@@ -6,17 +6,11 @@ namespace StockGrader.BL
 {
     public class DiffProvider : IDiffProvider
     {
-        public IEnumerable<Position> NewPositions { get; } = new List<Position>();
-        public IEnumerable<Position> UnchangedPositions { get; } = new List<Position>();
-        public IEnumerable<UpdatedPosition> IncreasedPositions { get; } = new List<UpdatedPosition>();
-        public IEnumerable<UpdatedPosition> ReducedPositions { get; } = new List<UpdatedPosition>();
-        public IEnumerable<RemovedPosition> RemovedPositions { get; } = new List<RemovedPosition>();
-
-        public void CalculateDiff(IEnumerable<ReportEntry> oldEntries, IEnumerable<ReportEntry> newEntries)
+        public Diff CalculateDiff(IEnumerable<ReportEntry> oldEntries, IEnumerable<ReportEntry> newEntries)
         {
             var oldProcessed = ProcessEntries(oldEntries);
             var newProcessed = ProcessEntries(newEntries);
-            ParseProcessedEntries(oldProcessed, newProcessed);
+            return ParseProcessedEntries(oldProcessed, newProcessed);
         }
 
         public IDictionary<string, ProcessedEntry> ProcessEntries(IEnumerable<ReportEntry> entries)
@@ -43,8 +37,9 @@ namespace StockGrader.BL
             return processedEntries;
         }
 
-        public void ParseProcessedEntries(IDictionary<string, ProcessedEntry> oldEntries, IDictionary<string, ProcessedEntry> newEntries)
+        public Diff ParseProcessedEntries(IDictionary<string, ProcessedEntry> oldEntries, IDictionary<string, ProcessedEntry> newEntries)
         {
+            var diff = new Diff();
             foreach (var newEntry in newEntries)
             {
                 if (!oldEntries.ContainsKey(newEntry.Key))
@@ -54,7 +49,7 @@ namespace StockGrader.BL
                                                     newEntry.Value.Shares,
                                                     newEntry.Value.Weight);
 
-                    ((List<Position>)NewPositions).Add(newPosition);
+                    diff.NewPositions.Add(newPosition);
                     oldEntries.Remove(newEntry.Key);
                     continue;
                 }
@@ -65,7 +60,7 @@ namespace StockGrader.BL
                                                         newEntry.Value.Ticker,
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight);
-                    ((List<Position>)UnchangedPositions).Add(unchangedPosition);
+                    diff.UnchangedPositions.Add(unchangedPosition);
                 }
                 else if (shareChange < 0)
                 { 
@@ -74,7 +69,7 @@ namespace StockGrader.BL
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    ((List<UpdatedPosition>)ReducedPositions).Add(reducedPosition);
+                    diff.ReducedPositions.Add(reducedPosition);
                 }
                 else
                 {
@@ -83,7 +78,7 @@ namespace StockGrader.BL
                                                         newEntry.Value.Shares,
                                                         newEntry.Value.Weight,
                                                          shareChange);
-                    ((List<UpdatedPosition>)IncreasedPositions).Add(increasedPosition);
+                    diff.IncreasedPositions.Add(increasedPosition);
                 }
                 oldEntries.Remove(newEntry.Key);
             }
@@ -91,8 +86,10 @@ namespace StockGrader.BL
             {
                 var removedPosition = new RemovedPosition(oldEntry.Value.CompanyName,
                                                     oldEntry.Value.Ticker);
-                ((List<RemovedPosition>)RemovedPositions).Add(removedPosition);
+                diff.RemovedPositions.Add(removedPosition);
             }
+
+            return diff;
         }
 
         public double ComputeShareChangePercentage(int oldShare, int newShare)

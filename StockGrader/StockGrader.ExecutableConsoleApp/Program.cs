@@ -1,25 +1,30 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using StockGrader.BL;
 using StockGrader.DAL;
-using StockGrader.Runner;
+using StockGrader.StockComparisonRunner;
 using System.Reflection;
+using System.Security;
 
-internal class Program
-{
-    private static async Task Main(string[] args)
-    {
-        // TODO: configure from out (appsettings or something like that - not hardcoded)
-        var filePath = Path.Combine(Assembly.GetExecutingAssembly().Location, "..\\..\\..\\..\\..\\StockGrader.Runner\\StockFiles\\ARK_ORIGINAL.csv");
-        var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
+// build configuration
+var builder = new ConfigurationBuilder()
+        .SetBasePath(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName)
+        .AddJsonFile("config.json", optional: false);
 
-        var serviceCollection = new ServiceCollection()
-            .AddTransient<IRunner, Runner>();
-        serviceCollection.InstallDal(url, filePath);
-        serviceCollection.InstallBl();
+var config = builder.Build();
 
-        var serviceProvider = serviceCollection.BuildServiceProvider();
+// parse configuration
+var filePath = Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName, "StockFiles", config.GetValue<string>("FileName"));
+var stockUrl = new Uri(config.GetValue<string>("StockUrl"));
+var userAgentHeader = config.GetSection("HttpClientConfig").GetValue<string>("UserAgentHeader");
+var commonUserAgent = config.GetSection("HttpClientConfig").GetValue<string>("CommonUserAgent");
 
-        var runner = serviceProvider.GetService<IRunner>();
-        await runner.Run();
-    }
-}
+var serviceCollection = new ServiceCollection();
+serviceCollection.InstallStockComparisonRunner();
+serviceCollection.InstallDal(stockUrl, filePath, userAgentHeader, commonUserAgent);
+serviceCollection.InstallBl();
+
+var serviceProvider = serviceCollection.BuildServiceProvider();
+
+var runner = serviceProvider.GetService<IRunner>();
+await runner.Run();

@@ -1,7 +1,11 @@
-﻿namespace StockGrader.BL.Writer
+﻿using StockGrader.BL.Model;
+
+namespace StockGrader.BL.Writer
 {
     public interface IWriter
     {
-        void Write(IDiffProvider diffProvider);
+        void WriteStockComparison(Diff diff);
+
+        void WriteError(string message);
     }
 }
