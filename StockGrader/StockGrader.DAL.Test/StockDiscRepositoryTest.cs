@@ -16,7 +16,7 @@ namespace StockGrader.DAL.Test
             var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
             var userAgentHeader = "User-Agent";
             var commonUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-            var stockRep = new StockDiscRepository(url, filePath, userAgentHeader, commonUserAgent);
+            var stockRep = new StockDiscRepository(url, userAgentHeader, commonUserAgent);
 
             try
             {
@@ -39,7 +39,7 @@ namespace StockGrader.DAL.Test
             var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
             var userAgentHeader = "User-Agent";
             var commonUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-            var stockRep = new StockDiscRepository(url, filePath, userAgentHeader, commonUserAgent);
+            var stockRep = new StockDiscRepository(url, userAgentHeader, commonUserAgent);
 
             try
             {

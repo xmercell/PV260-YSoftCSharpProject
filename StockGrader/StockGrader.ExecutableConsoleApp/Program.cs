@@ -21,7 +21,7 @@ var commonUserAgent = config.GetSection("HttpClientConfig").GetValue<string>("Co
 
 var serviceCollection = new ServiceCollection();
 serviceCollection.InstallStockComparisonRunner();
-serviceCollection.InstallDal(stockUrl, filePath, userAgentHeader, commonUserAgent);
+serviceCollection.InstallDal(stockUrl, userAgentHeader, commonUserAgent);
 serviceCollection.InstallBl();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
