@@ -84,18 +84,6 @@ namespace StockGrader.DiscordBot.Services
             }
         }
 
-        //private async Task<ITextChannel> EnsureChannelExistsAsync(SocketGuild guild, string channelName)
-        //{
-        //    var existingChannel = guild.TextChannels.FirstOrDefault(channel => channel.Name == channelName);
-
-        //    if (existingChannel != null)
-        //    {
-        //        return existingChannel;
-        //    }
-
-        //    return await guild.CreateTextChannelAsync(channelName);
-        //}
-
         private async Task<DateTimeOffset?> GetLastSentMessageByBotAsync(ITextChannel channel)
         {
             var messages = await channel.GetMessagesAsync(100).FlattenAsync();
