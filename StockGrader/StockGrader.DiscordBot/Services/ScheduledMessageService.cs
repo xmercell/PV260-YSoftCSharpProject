@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using static StockGrader.DiscordBot.Utils;
 
 namespace StockGrader.DiscordBot.Services
 {
@@ -18,6 +19,7 @@ namespace StockGrader.DiscordBot.Services
 
             _timer = new System.Timers.Timer(60000); // 60,000 milliseconds = 1 minute
             _timer.Elapsed += Timer_Elapsed;
+            _timer.AutoReset = true;
             _timer.Start();
 
             Timer_Elapsed(null, null);
@@ -33,10 +35,10 @@ namespace StockGrader.DiscordBot.Services
 
             foreach (var guild in _client.Guilds)
             {
-                var dailyChannel = await EnsureChannelExistsAsync(guild, "daily");
-                var weeklyChannel = await EnsureChannelExistsAsync(guild, "weekly");
-                var biweeklyChannel = await EnsureChannelExistsAsync(guild, "biweekly");
-                var monthlyChannel = await EnsureChannelExistsAsync(guild, "monthly");
+                var dailyChannel = await EnsureChannelExistsAsync("daily", guild, null);
+                var weeklyChannel = await EnsureChannelExistsAsync("weekly", guild, null);
+                var biweeklyChannel = await EnsureChannelExistsAsync("biweekly", guild, null);
+                var monthlyChannel = await EnsureChannelExistsAsync("monthly", guild, null);
 
                 await CheckAndSendDailyMessageAsync(dailyChannel);
                 await CheckAndSendWeeklyMessageAsync(weeklyChannel);
@@ -81,17 +83,17 @@ namespace StockGrader.DiscordBot.Services
             }
         }
 
-        private async Task<ITextChannel> EnsureChannelExistsAsync(SocketGuild guild, string channelName)
-        {
-            var existingChannel = guild.TextChannels.FirstOrDefault(channel => channel.Name == channelName);
+        //private async Task<ITextChannel> EnsureChannelExistsAsync(SocketGuild guild, string channelName)
+        //{
+        //    var existingChannel = guild.TextChannels.FirstOrDefault(channel => channel.Name == channelName);
 
-            if (existingChannel != null)
-            {
-                return existingChannel;
-            }
+        //    if (existingChannel != null)
+        //    {
+        //        return existingChannel;
+        //    }
 
-            return await guild.CreateTextChannelAsync(channelName);
-        }
+        //    return await guild.CreateTextChannelAsync(channelName);
+        //}
 
         private async Task<DateTimeOffset?> GetLastSentMessageByBotAsync(ITextChannel channel)
         {
