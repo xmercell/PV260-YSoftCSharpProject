@@ -33,7 +33,6 @@ namespace StockGrader.DiscordBot
 
         public static async Task<ITextChannel> EnsureRoleChannelExistsAsync(string channelName, SocketGuild guild)
         {
-            // channel already exists
             ITextChannel channel = GetTextChannelByName(guild, channelName);
 
             var role = await GetOrCreateRoleAsync(channelName, guild);
@@ -57,14 +56,15 @@ namespace StockGrader.DiscordBot
             await channel.AddPermissionOverwriteAsync(
                             role,
                             OverwritePermissions
-                            .DenyAll(channel)
-                            .Modify(viewChannel: PermValue.Allow)
-                            .Modify(readMessageHistory: PermValue.Allow)
+                                .DenyAll(channel)
+                                .Modify(viewChannel: PermValue.Allow)
+                                .Modify(readMessageHistory: PermValue.Allow)
                         );
 
             await channel.AddPermissionOverwriteAsync(
-                guild.EveryoneRole,
-                 OverwritePermissions.DenyAll(channel)
+                            guild.EveryoneRole,
+                            OverwritePermissions
+                                .DenyAll(channel)
                 );
         }
 

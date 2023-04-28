@@ -47,7 +47,6 @@ namespace StockGrader.DiscordBot.Modules
             if (role == null)
             {
                 await Context.Channel.SendMessageAsync($"Unable to find or create the {channelName} role.");
-                // TODO: handle early return
                 return;
             }
 
