@@ -35,10 +35,11 @@ namespace StockGrader.DiscordBot.Services
 
             foreach (var guild in _client.Guilds)
             {
-                var dailyChannel = await EnsureChannelExistsAsync("daily", guild, null);
-                var weeklyChannel = await EnsureChannelExistsAsync("weekly", guild, null);
-                var biweeklyChannel = await EnsureChannelExistsAsync("biweekly", guild, null);
-                var monthlyChannel = await EnsureChannelExistsAsync("monthly", guild, null);
+                await EnsureChannelExistsAsync("subs", guild);
+                var dailyChannel = await EnsureRoleChannelExistsAsync("daily", guild);
+                var weeklyChannel = await EnsureRoleChannelExistsAsync("weekly", guild);
+                var biweeklyChannel = await EnsureRoleChannelExistsAsync("biweekly", guild);
+                var monthlyChannel = await EnsureRoleChannelExistsAsync("monthly", guild);
 
                 await CheckAndSendDailyMessageAsync(dailyChannel);
                 await CheckAndSendWeeklyMessageAsync(weeklyChannel);

@@ -51,13 +51,15 @@ namespace StockGrader.DiscordBot.Modules
                 return;
             }
 
-            var channel = await EnsureChannelExistsAsync(channelName, Context.Guild, role);
+            var channel = await EnsureRoleChannelExistsAsync(channelName, Context.Guild);
             
 
             if (channel is not null)
             {
-                // can this really be null?
-                await (user as IGuildUser).AddRoleAsync(role);
+                var guildUser = user as IGuildUser;
+                var roleIDs = await GetChannelRolesIDs(Context.Guild);
+                await guildUser.RemoveRolesAsync(roleIDs);
+                await (Context.User as IGuildUser).AddRoleAsync(role);
                 await Context.Channel.SendMessageAsync($"{user.Mention} has been assigned to {channel.Mention}");
             }
             else

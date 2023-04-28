@@ -190,3 +190,6 @@ ModelManifest.xml
 /.vs
 /StockGrader/.vs/StockGrader
 /StockGrader/.vs/ProjectEvaluation
+
+# DIscordConfigFile
+/StockGrader/StockGrader.DiscordBot/Config.json
