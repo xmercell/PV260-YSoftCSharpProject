@@ -42,7 +42,7 @@ namespace StockGrader.DiscordBot.Modules
         {
             var user = Context.User;
             // roles can be named the same way as channels, or we can add parameter
-            var role = await GetOrCreateRoleAsync(channelName);
+            var role = await GetOrCreateRoleAsync(channelName, Context.Guild);
 
             if (role == null)
             {
@@ -51,7 +51,7 @@ namespace StockGrader.DiscordBot.Modules
                 return;
             }
 
-            var channel = await GetOrCreateRoleChannelAsync(channelName, role);
+            var channel = await EnsureChannelExistsAsync(channelName, Context.Guild, role);
             
 
             if (channel is not null)
@@ -65,57 +65,5 @@ namespace StockGrader.DiscordBot.Modules
                 await Context.Channel.SendMessageAsync($"Unable to find or create the {channelName} channel.");
             }
         }
-
-        private async Task<ITextChannel> GetOrCreateChannelAsync(string channelName)
-        {
-            var guild = Context.Guild;
-            var existingChannel = GetTextChannelByName(guild, channelName);
-
-            if (existingChannel is not null)
-            {
-                return existingChannel;
-            }
-
-           return await guild.CreateTextChannelAsync(channelName);
-        }
-
-        private async Task<ITextChannel> GetOrCreateRoleChannelAsync(string channelName, IRole role)
-        {
-            var guild = Context.Guild;
-            var existingChannel = GetTextChannelByName(guild, channelName);
-
-            if (existingChannel is not null)
-            {
-                return existingChannel;
-            }
-
-            var channel = await guild.CreateTextChannelAsync(channelName);
-            await channel.AddPermissionOverwriteAsync(
-                role, 
-                OverwritePermissions
-                    .DenyAll(channel)
-                    .Modify(viewChannel: PermValue.Allow) 
-            );
-            await channel.AddPermissionOverwriteAsync(
-                guild.EveryoneRole,
-                OverwritePermissions
-                    .DenyAll(channel)
-                );
-            return channel;
-        }
-
-        private async Task<IRole> GetOrCreateRoleAsync(string roleName)
-        {
-            var guild = Context.Guild;
-            var role = GetRoleByName(guild, roleName);
-
-            if (role is not null) 
-            {
-                return role;
-            }
-
-            return await guild.CreateRoleAsync(roleName);
-        }
-
     }
 }
