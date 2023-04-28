@@ -12,13 +12,22 @@ namespace StockGrader.DAL.Repository
         private readonly Uri _holdingsSheetUri;
         private readonly string _userAgentHeader;
         private readonly string _commonUserAgent;
+        private readonly string _endpointUri;
+        private readonly string _primaryKey;
+        private readonly string _databaseName;
+        private readonly string _containerName;
 
-        public StockDiscRepository(Uri holdingsSheetUri, string userAgentHeader, string commonUserAgent)
+        public StockDiscRepository(Uri holdingsSheetUri, string userAgentHeader,
+            string commonUserAgent, string endpointUri,string primaryKey, string databaseName, string containerName)
         {
             _holdingsSheetUri = holdingsSheetUri;
             _userAgentHeader = userAgentHeader;
             _commonUserAgent = commonUserAgent;
-        }
+            _endpointUri = endpointUri;
+            _primaryKey = primaryKey;
+            _databaseName = databaseName;
+            _containerName = containerName;
+    }
 
         public async Task FetchNew()
         {
@@ -39,9 +48,9 @@ namespace StockGrader.DAL.Repository
                     content
                 };
                 //connect to db
-                var cosmosClient = new CosmosClient("AccountEndpoint=https://matejgros.documents.azure.com:443/;AccountKey=JyWaRohZpb39OzO4z6VbVNrN16EKK1WkN6yCdP5OXjD9h9IWP1iIvHRbcI5UJn8YJsJmapJpd97HACDbtulQyg==");
-                var database = cosmosClient.GetDatabase("ysoft");
-                var container = database.GetContainer("ysoft_con");
+                var cosmosClient = new CosmosClient($"AccountEndpoint={_endpointUri};AccountKey={_primaryKey}");
+                var database = cosmosClient.GetDatabase($"{_databaseName}");
+                var container = database.GetContainer($"{_containerName}");
                 // Insert the item into the container
                 var result = await container.CreateItemAsync(jsonObject);
 
@@ -61,11 +70,11 @@ namespace StockGrader.DAL.Repository
         {
             try
             {
-                var cosmosClient = new CosmosClient("AccountEndpoint=https://matejgros.documents.azure.com:443/;AccountKey=JyWaRohZpb39OzO4z6VbVNrN16EKK1WkN6yCdP5OXjD9h9IWP1iIvHRbcI5UJn8YJsJmapJpd97HACDbtulQyg==");
+                var cosmosClient = new CosmosClient($"AccountEndpoint={_endpointUri};AccountKey={_primaryKey}");
 
                 // Get a reference to the database and container
-                var database = cosmosClient.GetDatabase("ysoft");
-                var container = database.GetContainer("ysoft_con");
+                var database = cosmosClient.GetDatabase($"{_databaseName}");
+                var container = database.GetContainer($"{_containerName}");
 
                 // Create a query to get the last entry from the container
                 var query = new QueryDefinition("SELECT TOP 1 c.content FROM c ORDER BY c.date DESC");

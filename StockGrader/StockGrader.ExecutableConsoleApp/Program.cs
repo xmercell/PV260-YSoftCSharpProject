@@ -19,9 +19,15 @@ var stockUrl = new Uri(config.GetValue<string>("StockUrl"));
 var userAgentHeader = config.GetSection("HttpClientConfig").GetValue<string>("UserAgentHeader");
 var commonUserAgent = config.GetSection("HttpClientConfig").GetValue<string>("CommonUserAgent");
 
+// The configuration for connecting to Azure database
+var endpointUri = System.Configuration.ConfigurationManager.AppSettings["EndPointUri"];
+var primaryKey = System.Configuration.ConfigurationManager.AppSettings["PrimaryKey"];
+var databaseName = System.Configuration.ConfigurationManager.AppSettings["DatabaseName"];
+var containerName = System.Configuration.ConfigurationManager.AppSettings["ContainerName"];
+
 var serviceCollection = new ServiceCollection();
 serviceCollection.InstallStockComparisonRunner();
-serviceCollection.InstallDal(stockUrl, userAgentHeader, commonUserAgent);
+serviceCollection.InstallDal(stockUrl, userAgentHeader, commonUserAgent, endpointUri, primaryKey, databaseName, containerName);
 serviceCollection.InstallBl();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
