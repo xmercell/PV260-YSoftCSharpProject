@@ -96,6 +96,11 @@ namespace StockGrader.DiscordBot.Modules
                     .DenyAll(channel)
                     .Modify(viewChannel: PermValue.Allow) 
             );
+            await channel.AddPermissionOverwriteAsync(
+                guild.EveryoneRole,
+                OverwritePermissions
+                    .DenyAll(channel)
+                );
             return channel;
         }
 
