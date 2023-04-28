@@ -30,7 +30,7 @@ namespace StockGrader.BL.Model
         public override string ToString()
         {
             var changeSymbol = SharesChange < 0 ? "🔻"  : "🔺";
-            return $"{CompanyName}, {Ticker}, {Shares}({changeSymbol}{Math.Abs(SharesChange)}%), {Weight}";
+            return $"{CompanyName}, {Ticker}, {Shares}( {changeSymbol} {Math.Abs(Math.Round(SharesChange,2))}%), {Math.Round(Weight, 2)}(%)";
         }
     }
 }

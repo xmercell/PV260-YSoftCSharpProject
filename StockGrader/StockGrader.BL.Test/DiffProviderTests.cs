@@ -56,17 +56,17 @@ namespace StockGrader.BL.Test
             };
             // Arrange
             var diffProvider = A.Fake<IDiffProvider>();
-            A.CallTo(() => diffProvider.CalculateDiff(A<IEnumerable<ReportEntry>>.Ignored, A<IEnumerable<ReportEntry>>.Ignored)).Invokes(() => _diffProvider.CalculateDiff(oldEntries, newEntries));
+            A.CallTo(() => diffProvider.CalculateDiff(A<IEnumerable<ReportEntry>>.Ignored, A<IEnumerable<ReportEntry>>.Ignored)).Returns(_diffProvider.CalculateDiff(oldEntries, newEntries));
 
             // Act
-            diffProvider.CalculateDiff(oldEntries, newEntries);
+            var diff = diffProvider.CalculateDiff(oldEntries, newEntries);
 
             // Assert
-            Assert.That(_diffProvider.NewPositions.Count(), Is.EqualTo(1));
-            Assert.That(_diffProvider.UnchangedPositions.Count(), Is.EqualTo(0));
-            Assert.That(_diffProvider.IncreasedPositions.Count(), Is.EqualTo(1));
-            Assert.That(_diffProvider.ReducedPositions.Count(), Is.EqualTo(0));
-            Assert.That(_diffProvider.RemovedPositions.Count(), Is.EqualTo(1));
+            Assert.That(diff.NewPositions.Count(), Is.EqualTo(1));
+            Assert.That(diff.UnchangedPositions.Count(), Is.EqualTo(0));
+            Assert.That(diff.IncreasedPositions.Count(), Is.EqualTo(1));
+            Assert.That(diff.ReducedPositions.Count(), Is.EqualTo(0));
+            Assert.That(diff.RemovedPositions.Count(), Is.EqualTo(1));
         }
 
         [Test]
