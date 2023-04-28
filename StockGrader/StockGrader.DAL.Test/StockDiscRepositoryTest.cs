@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,50 +10,39 @@ namespace StockGrader.DAL.Test
 {
     public class StockDiscRepositoryTest
     {
-        [Test]
-        public async Task GetLastTest()
+
+
+        private StockDiscRepository stockRep;
+
+        [SetUp]
+        public void SetUp()
         {
-            var filePath = Path.GetTempFileName();
+            var configFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\StockGrader.ExecutableConsoleApp\\App.config"));
+            var configFileMap = new ExeConfigurationFileMap { ExeConfigFilename = configFilePath };
+            var config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+
+            var endpointUri = config.AppSettings.Settings["EndPointUri"].Value;
+            var primaryKey = config.AppSettings.Settings["PrimaryKey"].Value;
+            var databaseName = config.AppSettings.Settings["DatabaseName"].Value;
+            var containerName = config.AppSettings.Settings["ContainerName"].Value;
+
             var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
             var userAgentHeader = "User-Agent";
             var commonUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-            var stockRep = new StockDiscRepository(url, userAgentHeader, commonUserAgent);
-
-            try
-            {
-                await stockRep.FetchNew();
-                var lines = await File.ReadAllLinesAsync(filePath);
-                var stockReport = stockRep.GetLast();
-
-                Assert.That((lines.Length - 2), Is.EqualTo(stockReport.Entries.Count()));
-            }
-            finally
-            {
-                File.Delete(filePath);
-            }
+            stockRep = new StockDiscRepository(url, userAgentHeader, commonUserAgent, endpointUri, primaryKey, databaseName, containerName);
         }
 
         [Test]
-        public async Task FetchTest()
+        public async Task StockDiskRepositoryLoadsCsv()
         {
-            var filePath = Path.GetTempFileName();
-            var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
-            var userAgentHeader = "User-Agent";
-            var commonUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
-            var stockRep = new StockDiscRepository(url, userAgentHeader, commonUserAgent);
-
-            try
-            {
-                await stockRep.FetchNew();
-                using StreamReader sr = new(File.OpenRead(filePath));
-                var header = await sr.ReadLineAsync();
-                Assert.That(header, Is.Not.Null);
-                Assert.That(header.Equals("date,fund,company,ticker,cusip,shares,\"market value ($)\",\"weight (%)\""));
-            }
-            finally
-            {
-                File.Delete(filePath);
-            }
+            await stockRep.FetchNew();
+            var stockReport = stockRep.GetLast();
+            Assert.That(stockReport, Is.Not.Null);
+            Assert.That(stockReport.Entries, Is.Not.Null);
+            Assert.That(stockReport.Entries.Count(), Is.GreaterThan(0));
         }
+
+
+
     }
 }
