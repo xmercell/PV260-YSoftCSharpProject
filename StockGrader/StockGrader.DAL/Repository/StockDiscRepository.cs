@@ -43,6 +43,11 @@ namespace StockGrader.DAL.Repository
             }
         }
 
+        public StockReport GetByDate(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+
         public StockReport GetLast()
         {
             try

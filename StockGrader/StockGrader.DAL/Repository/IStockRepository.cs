@@ -11,5 +11,7 @@ namespace StockGrader.DAL.Repository
         Task FetchNew();
 
         StockReport GetLast();
+
+        StockReport GetByDate(DateTime date);
     }
 }
