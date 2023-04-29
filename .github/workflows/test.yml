@@ -33,5 +33,17 @@ jobs:
     - name: Build
       run: dotnet build StockGrader/StockGrader.sln --configuration Release --no-restore
     
+    - name: Create App.config
+      run: |
+        echo '<?xml version="1.0" encoding="utf-8" ?>' > src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '<configuration>' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '  <appSettings>' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '    <add key="EndpointUri" value="https://matejgros.documents.azure.com:443/" />' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '    <add key="DatabaseName" value="ysoft" />' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '    <add key="ContainerName" value="ysoft_con" />' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '    <add key="PrimaryKey" value="Q81VjNyyQVrnLsFQAFdtNIVOKAQNvtWfnZakk2tza63x5Y1ixPDPCT6B1cdUpBvJlp14doz6t52kACDb4P4BvA==" />' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '  </appSettings>' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+        echo '</configuration>' >> src/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+
     - name: Test
       run: dotnet test StockGrader/StockGrader.sln --no-restore --verbosity normal
