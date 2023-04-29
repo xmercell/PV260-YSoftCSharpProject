@@ -6,6 +6,9 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using StockGrader.DiscordBot.Services;
+using StockGrader.StockComparisonRunner;
+using StockGrader.BL;
+using StockGrader.DAL;
 
 namespace StockGrader.DiscordBot
 {
@@ -27,6 +30,11 @@ namespace StockGrader.DiscordBot
 
             var configuration = configBuilder.Build();
             Console.WriteLine(configuration);
+
+            //var serviceCollection = new ServiceCollection();
+            //serviceCollection.InstallStockComparisonRunner();
+            //serviceCollection.InstallDal(stockUrl, filePath, userAgentHeader, commonUserAgent);
+            //serviceCollection.InstallBl();
 
             return new ServiceCollection()
                 .AddSingleton<IConfiguration>(configuration)
