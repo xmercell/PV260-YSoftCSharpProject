@@ -48,6 +48,11 @@ namespace StockGrader.DAL.Repository
             throw new NotImplementedException();
         }
 
+        public StockReport GetCurrent()
+        {
+            throw new NotImplementedException();
+        }
+
         public StockReport GetLast()
         {
             try
