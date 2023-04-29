@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StockGrader.BL.Services
 {
-    internal interface IDiffManager
+    public interface IDiffManager
     {
         public Diff GetDailyDiff();
 

@@ -5,6 +5,8 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using StockGrader.BL;
+using StockGrader.BL.Services;
 using StockGrader.DiscordBot.Services;
 
 namespace StockGrader.DiscordBot
@@ -17,10 +19,12 @@ namespace StockGrader.DiscordBot
         private readonly CommandService _commandService;
         private readonly IConfiguration _configuration;
         private ScheduledMessageService _scheduledMessageService;
+        private readonly IDiffManager _diffManager;
 
-        public Bot(IConfiguration configuration)
+        public Bot(IConfiguration configuration, IDiffManager diffManager)
         {
             _configuration = configuration;
+            _diffManager = diffManager;
             
 
             var config = new DiscordSocketConfig
@@ -54,7 +58,7 @@ namespace StockGrader.DiscordBot
         private async Task ReadyAsync()
         {
             Console.WriteLine($"{_client.CurrentUser} is connected!");
-            _scheduledMessageService = new ScheduledMessageService(_client);
+            _scheduledMessageService = new ScheduledMessageService(_client, _diffManager);
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)

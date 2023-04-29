@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using static StockGrader.DiscordBot.Utils;
+using StockGrader.BL.Services;
 
 namespace StockGrader.DiscordBot.Services
 {
@@ -12,10 +13,12 @@ namespace StockGrader.DiscordBot.Services
     {
         private readonly DiscordSocketClient _client;
         private readonly System.Timers.Timer _timer;
+        private readonly IDiffManager _diffManager;
 
-        public ScheduledMessageService(DiscordSocketClient client)
+        public ScheduledMessageService(DiscordSocketClient client, IDiffManager diffManager)
         {
             _client = client;
+            _diffManager = diffManager;
 
             _timer = new System.Timers.Timer(60000); // 60,000 milliseconds = 1 minute
             _timer.Elapsed += Timer_Elapsed;
@@ -53,6 +56,13 @@ namespace StockGrader.DiscordBot.Services
             var lastSentMessage = await GetLastSentMessageByBotAsync(dailyChannel);
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(1))
             {
+                var diff = _diffManager.GetDailyDiff();
+                var embed = new EmbedBuilder()
+                                    .WithTitle("Daily comparison")
+                                    .WithDescription("Shows changes in positions since yesterday")
+                                    .AddField()
+
+
                 await dailyChannel.SendMessageAsync("Daily message!");
             }
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StockGrader.BL.Services
 {
-    internal class DiffManager : IDiffManager
+    public class DiffManager : IDiffManager
     {
         private readonly IStockRepository _stockRepository;
         private readonly IDiffProvider _diffProvider;
@@ -21,33 +21,39 @@ namespace StockGrader.BL.Services
 
         public Diff GetDailyDiff()
         {
-            var today = DateTime.Now;
-            var yesterday = today.AddDays(-1);
-
-            var yesterdayStock = _stockRepository.GetByDate(yesterday);
-
-
-            var todayStock = _stockRepository.GetByDate(today);
-
-            if (todayStock != null) { }
-
-
-            return _diffProvider.CalculateDiff(yesterdayStock.Entries, todayStock.Entries);
+            var yesterday = DateTime.Now.AddDays(-1);
+            return GetDiffSince(yesterday);
         }
 
         public Diff GetBiweeklyDiff()
         {
-            throw new NotImplementedException();
+            var twoWeeksAgo = DateTime.Now.AddDays(-14);
+            return GetDiffSince(twoWeeksAgo);
         }
 
         public Diff GetMotnhlyDiff()
         {
-            throw new NotImplementedException();
+            var lastMonth = DateTime.Now.AddMonths(-1);
+            return GetDiffSince(lastMonth);
         }
 
         public Diff GetWeeklyDiff()
         {
-            throw new NotImplementedException();
+            var lastWeek = DateTime.Now.AddDays(-7);
+            return GetDiffSince(lastWeek);
+        }
+
+        private Diff GetDiffSince(DateTime previousDate)
+        {
+            var previousStock = _stockRepository.GetByDate(previousDate);
+            var todayStock = _stockRepository.GetCurrent();
+
+            if (previousStock is null)
+            {
+                previousStock = new DAL.Model.StockReport();
+            }
+
+            return _diffProvider.CalculateDiff(previousStock.Entries, todayStock.Entries);
         }
     }
 }
