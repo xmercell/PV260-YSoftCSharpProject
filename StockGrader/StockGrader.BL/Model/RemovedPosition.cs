@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StockGrader.BL.Model
 {
-    public class RemovedPosition
+    public class RemovedPosition: AbstractPosition
     {
         public string CompanyName { get; }
 

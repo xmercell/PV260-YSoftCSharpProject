@@ -32,7 +32,7 @@ namespace StockGrader.DiscordBot.Services
 
         private async void Timer_Elapsed(object? sender, ElapsedEventArgs? e)
         {
-            Console.WriteLine("Timer");
+            Console.WriteLine("Timer_Elapsed");
             if (_client.ConnectionState != ConnectionState.Connected)
             {
                 return;
@@ -59,10 +59,9 @@ namespace StockGrader.DiscordBot.Services
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(1))
             {
                 var diff = _diffManager.GetDailyDiff();
+                var embed = CreateEmbedFromDiff(diff,"Daily diff", "Change since yesterday");
 
-
-
-                await dailyChannel.SendMessageAsync("Daily message!");
+                await dailyChannel.SendMessageAsync(embed: embed);
             }
         }
 
@@ -71,7 +70,10 @@ namespace StockGrader.DiscordBot.Services
             var lastSentMessage = await GetLastSentMessageByBotAsync(weeklyChannel);
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(7))
             {
-                await weeklyChannel.SendMessageAsync("Weekly message!");
+                var diff = _diffManager.GetWeeklyDiff();
+                var embed = CreateEmbedFromDiff(diff, "Weekly diff", "Change since last week");
+
+                await weeklyChannel.SendMessageAsync(embed: embed);
             }
         }
 
@@ -80,7 +82,10 @@ namespace StockGrader.DiscordBot.Services
             var lastSentMessage = await GetLastSentMessageByBotAsync(biweeklyChannel);
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(14))
             {
-                await biweeklyChannel.SendMessageAsync("Biweekly message!");
+                var diff = _diffManager.GetBiweeklyDiff();
+                var embed = CreateEmbedFromDiff(diff, "Biweekly diff", "Change since two weeks ago");
+
+                await biweeklyChannel.SendMessageAsync(embed: embed);
             }
         }
 
@@ -89,7 +94,10 @@ namespace StockGrader.DiscordBot.Services
             var lastSentMessage = await GetLastSentMessageByBotAsync(monthlyChannel);
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(30))
             {
-                await monthlyChannel.SendMessageAsync("Monthly message!");
+                var diff = _diffManager.GetMotnhlyDiff();
+                var embed = CreateEmbedFromDiff(diff, "Monthly diff", "Change since last month");
+
+                await monthlyChannel.SendMessageAsync(embed: embed);
             }
         }
 
@@ -108,31 +116,37 @@ namespace StockGrader.DiscordBot.Services
             return null;
         }
 
-        private Embed CreateEmbedFromDiff(Diff diff)
+        private Embed CreateEmbedFromDiff(Diff diff,string title, string description)
         {
+            var newPositionLines = GeneratePositionsContent((IList<AbstractPosition>)diff.NewPositions);
+            var increasedPositions = GeneratePositionsContent((IList<AbstractPosition>)diff.IncreasedPositions);
+            var reducedPositions = GeneratePositionsContent((IList<AbstractPosition>)diff.ReducedPositions);
+            var unchangedPositions = GeneratePositionsContent((IList<AbstractPosition>)diff.UnchangedPositions);
+            var removedPositions = GeneratePositionsContent((IList<AbstractPosition>)diff.RemovedPositions);
             var embed = new EmbedBuilder()
-                    .WithTitle("Daily comparison")
-                    .WithDescription("Shows changes in positions since yesterday")
-                    .AddField()
+                    .WithTitle(title)
+                    .WithDescription(description)
+                    .AddField("New positions (Company Name, Ticker, #Shares, Weight(%))", newPositionLines)
+                    .AddField("Increased positions (Company Name, Ticker, #Shares( 🔺 x%), Weight(%))", increasedPositions)
+                    .AddField("Reduced positions (Company Name, Ticker, #Shares( 🔻 x%), Weight(%))", reducedPositions)
+                    .AddField("Unchanged positions (Company Name, Ticker, #Shares, Weight(%))", unchangedPositions)
+                    .AddField("Removed positions (Company Name, Ticker)", removedPositions)
+                    .WithColor(Color.Blue)
+                    .WithCurrentTimestamp()
+                    .Build();
+            return embed;
+
         }
 
-        private string CreateEmbedField(Diff diff, string positionType, string header)
+        private string GeneratePositionsContent(IList<AbstractPosition> positions)
         {
-            var result = new StringBuilder(
-                $"Increased positions:{Environment.NewLine}" +
-                $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}");
-            foreach (var pos in IncreasedPositions)
+            var result = new StringBuilder();
+            foreach (var pos in positions)
             {
                 result.AppendLine(pos.ToString());
 
             }
-            result.AppendLine();
             return result.ToString();
-            //Console.Write(NewPositions(diff.NewPositions));
-            //Console.Write(IncreasedPositions(diff.IncreasedPositions));
-            //Console.Write(ReducedPositions(diff.ReducedPositions));
-            //Console.Write(UnchangedPositions(diff.UnchangedPositions));
-            //Console.Write(RemovedPositions(diff.RemovedPositions));
         }
 
     }
