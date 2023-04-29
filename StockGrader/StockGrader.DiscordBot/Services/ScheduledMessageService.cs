@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Timers;
 using static StockGrader.DiscordBot.Utils;
 using StockGrader.BL.Services;
+using StockGrader.BL.Model;
+using System.Text;
 
 namespace StockGrader.DiscordBot.Services
 {
@@ -57,10 +59,7 @@ namespace StockGrader.DiscordBot.Services
             if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(1))
             {
                 var diff = _diffManager.GetDailyDiff();
-                var embed = new EmbedBuilder()
-                                    .WithTitle("Daily comparison")
-                                    .WithDescription("Shows changes in positions since yesterday")
-                                    .AddField()
+
 
 
                 await dailyChannel.SendMessageAsync("Daily message!");
@@ -108,5 +107,33 @@ namespace StockGrader.DiscordBot.Services
 
             return null;
         }
+
+        private Embed CreateEmbedFromDiff(Diff diff)
+        {
+            var embed = new EmbedBuilder()
+                    .WithTitle("Daily comparison")
+                    .WithDescription("Shows changes in positions since yesterday")
+                    .AddField()
+        }
+
+        private string CreateEmbedField(Diff diff, string positionType, string header)
+        {
+            var result = new StringBuilder(
+                $"Increased positions:{Environment.NewLine}" +
+                $"Company Name, Ticker, #Shares( 🔺 x%), Weight(%){Environment.NewLine}");
+            foreach (var pos in IncreasedPositions)
+            {
+                result.AppendLine(pos.ToString());
+
+            }
+            result.AppendLine();
+            return result.ToString();
+            //Console.Write(NewPositions(diff.NewPositions));
+            //Console.Write(IncreasedPositions(diff.IncreasedPositions));
+            //Console.Write(ReducedPositions(diff.ReducedPositions));
+            //Console.Write(UnchangedPositions(diff.UnchangedPositions));
+            //Console.Write(RemovedPositions(diff.RemovedPositions));
+        }
+
     }
 }
