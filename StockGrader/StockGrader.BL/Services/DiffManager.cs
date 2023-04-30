@@ -46,7 +46,7 @@ namespace StockGrader.BL.Services
             return GetDiffSince(lastWeek);
         }
 
-        private Diff GetDiffSince(DateTime previousDate)
+        public Diff GetDiffSince(DateTime previousDate)
         {
             StockReport previousStock; 
             try 

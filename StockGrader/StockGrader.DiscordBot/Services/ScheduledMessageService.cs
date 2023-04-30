@@ -13,9 +13,13 @@ namespace StockGrader.DiscordBot.Services
         private readonly DiscordSocketClient _client;
         private readonly System.Timers.Timer _timer;
         private readonly IDiffManager _diffManager;
+        private static readonly int WeekDayCount = 7;
+        private static readonly int MonthDayCount = 30; 
+        private List<ReportPeriod> _reportPeriods;
 
         public ScheduledMessageService(DiscordSocketClient client, IDiffManager diffManager)
         {
+            InitReportPeriods();
             _client = client;
             _diffManager = diffManager;
 
@@ -27,6 +31,31 @@ namespace StockGrader.DiscordBot.Services
             Timer_Elapsed(null, null);
         }
 
+        private void InitReportPeriods()
+        {
+            _reportPeriods = new();
+            _reportPeriods.Add(new ReportPeriod(TimeSpan.FromDays(1), "daily"));
+            _reportPeriods.Add(new ReportPeriod(TimeSpan.FromDays(WeekDayCount), "weekly"));
+            _reportPeriods.Add(new ReportPeriod(TimeSpan.FromDays(2 * WeekDayCount), "biweekly"));
+            _reportPeriods.Add(new ReportPeriod(TimeSpan.FromDays(MonthDayCount), "monthly"));
+        }
+
+        private async Task ServeGuild(SocketGuild guild)
+        {
+            await guild.EnsureChannelExistsAsync("subs");
+                
+            List<(ITextChannel, ReportPeriod)> channels = new();
+            await Parallel.ForEachAsync(_reportPeriods,
+                async (reportPeriod, _) =>
+                {
+                    channels.Add((await guild.EnsureRoleChannelExistsAsync(reportPeriod.Description), reportPeriod));
+                });
+
+            foreach (var (textChannel, reportPeriod) in channels)
+            {
+                await CheckAndSendMessageAsync(textChannel, reportPeriod);
+            }
+        }
         private async void Timer_Elapsed(object? sender, ElapsedEventArgs? e)
         {
             Console.WriteLine("Timer_Elapsed");
@@ -37,28 +66,24 @@ namespace StockGrader.DiscordBot.Services
 
             foreach (var guild in _client.Guilds)
             {
-                await guild.EnsureChannelExistsAsync("subs");
-                var dailyChannel = await guild.EnsureRoleChannelExistsAsync("daily");
-                var weeklyChannel = await guild.EnsureRoleChannelExistsAsync("weekly");
-                var biweeklyChannel = await guild.EnsureRoleChannelExistsAsync("biweekly");
-                var monthlyChannel = await guild.EnsureRoleChannelExistsAsync("monthly");
-
-                await CheckAndSendDailyMessageAsync(dailyChannel);
-                await CheckAndSendWeeklyMessageAsync(weeklyChannel);
-                await CheckAndSendBiweeklyMessageAsync(biweeklyChannel);
-                await CheckAndSendMonthlyMessageAsync(monthlyChannel);
+                await ServeGuild(guild);
             }
         }
 
-        private async Task CheckAndSendDailyMessageAsync(ITextChannel dailyChannel)
+        private bool IsTimeToSendMessage(DateTimeOffset? lastSentMessage, ReportPeriod reportPeriod)
+        {
+            return lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > reportPeriod.Duration;
+        }
+        
+        private async Task CheckAndSendMessageAsync(ITextChannel dailyChannel, ReportPeriod reportPeriod)
         {
             var lastSentMessage = await GetLastSentMessageByBotAsync(dailyChannel);
-            if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(1))
+            if (IsTimeToSendMessage(lastSentMessage, reportPeriod))
             {
                 Diff diff;
                 try
                 {
-                    diff = _diffManager.GetDailyDiff();
+                    diff = _diffManager.GetDiffSince(GetTimeAgo(reportPeriod));
                 }
                 catch(Exception ex)
                 {
@@ -66,74 +91,12 @@ namespace StockGrader.DiscordBot.Services
                     return;
                 }
 
-                var embed = BuildEmbedFromDiff(diff,"Daily diff", "Change since yesterday");
+                var embed = BuildEmbedFromDiff(diff,$"{reportPeriod.Description} diff", $"Change from {reportPeriod.Duration.Days} days ago.");
 
                 await dailyChannel.SendMessageAsync(embed: embed);
             }
         }
 
-        private async Task CheckAndSendWeeklyMessageAsync(ITextChannel weeklyChannel)
-        {
-            var lastSentMessage = await GetLastSentMessageByBotAsync(weeklyChannel);
-            if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(7))
-            { 
-                Diff diff;
-                try
-                {
-                    diff = _diffManager.GetWeeklyDiff();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return;
-                }
-                var embed = BuildEmbedFromDiff(diff, "Weekly diff", "Change since last week");
-
-                await weeklyChannel.SendMessageAsync(embed: embed);
-            }
-        }
-
-        private async Task CheckAndSendBiweeklyMessageAsync(ITextChannel biweeklyChannel)
-        {
-            var lastSentMessage = await GetLastSentMessageByBotAsync(biweeklyChannel);
-            if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(14))
-            {
-                Diff diff;
-                try
-                {
-                    diff = _diffManager.GetBiweeklyDiff();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return;
-                }
-                var embed = BuildEmbedFromDiff(diff, "Biweekly diff", "Change since two weeks ago");
-
-                await biweeklyChannel.SendMessageAsync(embed: embed);
-            }
-        }
-
-        private async Task CheckAndSendMonthlyMessageAsync(ITextChannel monthlyChannel)
-        {
-            var lastSentMessage = await GetLastSentMessageByBotAsync(monthlyChannel);
-            if (lastSentMessage == null || DateTimeOffset.UtcNow - lastSentMessage.Value > TimeSpan.FromDays(30))
-            {
-                Diff diff;
-                try
-                {
-                    diff = _diffManager.GetMotnhlyDiff();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return;
-                }
-                var embed = BuildEmbedFromDiff(diff, "Monthly diff", "Change since last month");
-
-                await monthlyChannel.SendMessageAsync(embed: embed);
-            }
-        }
 
         private async Task<DateTimeOffset?> GetLastSentMessageByBotAsync(ITextChannel channel)
         {
@@ -207,6 +170,11 @@ namespace StockGrader.DiscordBot.Services
 
             }
             return result.ToString();
+        }
+
+        private DateTime GetTimeAgo(ReportPeriod reportPeriod)
+        {
+            return DateTime.Now.AddDays(reportPeriod.Duration.Negate().Days);
         }
     }
 }

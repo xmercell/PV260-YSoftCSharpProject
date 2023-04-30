@@ -15,6 +15,7 @@ namespace StockGrader.BL.Services
 
         public Diff GetBiweeklyDiff();
         public Diff GetMotnhlyDiff();
+        public Diff GetDiffSince(DateTime previousDate);
 
     }
 }
