@@ -24,9 +24,9 @@ namespace StockGrader.DiscordBot
         }
 
         private static ServiceProvider ConfigureServices()
-        {   
+        {
             // The configuration for http client
-            var stockUrl = new Uri(System.Configuration.ConfigurationManager.AppSettings["StockUrl"]);        
+            var stockUrl = new Uri(System.Configuration.ConfigurationManager.AppSettings["StockUrl"]);
             var userAgentHeader = System.Configuration.ConfigurationManager.AppSettings["UserAgentHeader"];
             var commonUserAgent = System.Configuration.ConfigurationManager.AppSettings["CommonUserAgent"];
 
@@ -37,8 +37,8 @@ namespace StockGrader.DiscordBot
             var containerName = System.Configuration.ConfigurationManager.AppSettings["ContainerName"];
 
             // The confiuration for bot
-            var token = System.Configuration.ConfigurationManager.AppSettings["token"];
-            var prefix = System.Configuration.ConfigurationManager.AppSettings["prefix"];
+            var token = System.Configuration.ConfigurationManager.AppSettings["Token"];
+            var prefix = System.Configuration.ConfigurationManager.AppSettings["CommandPrefix"];
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.InstallStockComparisonRunner();
@@ -52,5 +52,6 @@ namespace StockGrader.DiscordBot
                 .AddSingleton<Bot>();
 
             return serviceCollection.BuildServiceProvider();
+        }
     }
 }

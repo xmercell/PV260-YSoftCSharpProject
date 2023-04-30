@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StockGrader.BL.Model
 {
-    public class Position: AbstractPosition
+    public class Position: IPosition
     {
         public string CompanyName { get; }
         public string Ticker { get; }
