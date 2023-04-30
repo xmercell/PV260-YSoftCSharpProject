@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.Azure.Cosmos;
 using StockGrader.DAL.Exception;
 using StockGrader.DAL.Model;
 using System.Globalization;
@@ -9,17 +10,24 @@ namespace StockGrader.DAL.Repository
     public class StockDiscRepository : IStockRepository
     {
         private readonly Uri _holdingsSheetUri;
-        private readonly string _reportFilePath;
         private readonly string _userAgentHeader;
         private readonly string _commonUserAgent;
+        private readonly string _endpointUri;
+        private readonly string _primaryKey;
+        private readonly string _databaseName;
+        private readonly string _containerName;
 
-        public StockDiscRepository(Uri holdingsSheetUri, string reportFilePath, string userAgentHeader, string commonUserAgent)
+        public StockDiscRepository(Uri holdingsSheetUri, string userAgentHeader,
+            string commonUserAgent, string endpointUri,string primaryKey, string databaseName, string containerName)
         {
             _holdingsSheetUri = holdingsSheetUri;
-            _reportFilePath = reportFilePath;
             _userAgentHeader = userAgentHeader;
             _commonUserAgent = commonUserAgent;
-        }
+            _endpointUri = endpointUri;
+            _primaryKey = primaryKey;
+            _databaseName = databaseName;
+            _containerName = containerName;
+    }
 
         public async Task FetchNew()
         {
@@ -31,7 +39,22 @@ namespace StockGrader.DAL.Repository
             
                 using StreamReader reader = new(stream);
                 var content = reader.ReadToEnd();
-                await File.WriteAllTextAsync(_reportFilePath, content);
+
+
+                // Create a new item to store in the container
+                var jsonObject = new
+                {
+                    id = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    content
+                };
+                //connect to db
+                var cosmosClient = new CosmosClient($"AccountEndpoint={_endpointUri};AccountKey={_primaryKey}");
+                var database = cosmosClient.GetDatabase($"{_databaseName}");
+                var container = database.GetContainer($"{_containerName}");
+                // Insert the item into the container
+                var result = await container.CreateItemAsync(jsonObject);
+
+
             }
             catch (HttpRequestException)
             {
@@ -45,38 +68,87 @@ namespace StockGrader.DAL.Repository
 
         public StockReport GetByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cosmosClient = new CosmosClient($"AccountEndpoint={_endpointUri};AccountKey={_primaryKey}");
+
+                // Get a reference to the database and container
+                var database = cosmosClient.GetDatabase($"{_databaseName}");
+                var container = database.GetContainer($"{_containerName}");
+
+                // Get the start and end of the day of the specified date
+                var startDate = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Utc);
+                var endDate = startDate.AddDays(1);
+
+                // Create a query to get the last entry from the day starting from the specified date
+                var query = new QueryDefinition("SELECT TOP 1 c.content FROM c WHERE c.id >= @startDate AND c.id < @endDate ORDER BY c.id DESC")
+                    .WithParameter("@startDate", startDate)
+                    .WithParameter("@endDate", endDate);
+                var iterator = container.GetItemQueryIterator<dynamic>(query);
+
+                // Get the content of the last entry from the iterator
+                dynamic result = iterator.ReadNextAsync().Result.FirstOrDefault();
+                string content = result?.content ?? string.Empty;
+
+                // If there is no content, retun null
+                if (string.IsNullOrEmpty(content))
+                {
+                    return null;
+                }
+
+                // Parse the content as CSV and return the results as a StockReport
+                using var reader = new StringReader(content);
+                using var csv = new CsvReader(reader, GetConfig());
+                csv.Context.RegisterClassMap(new ReportEntryMap());
+                var rows = csv.GetRecords<ReportEntry>().ToList();
+                return new StockReport { Entries = rows };
+            }
+            catch (IOException ex)
+            {
+                throw new LastStockNotFoundException(ex);
+            }
         }
 
         public StockReport GetCurrent()
         {
-            try
+            var stockReport = GetByDate(DateTime.Now);
+            if (stockReport == null)
             {
-                return GetByDate(DateTime.Now);
-
-            }
-            catch(LastStockNotFoundException ex) {
                 FetchNew().Wait();
                 return GetByDate(DateTime.Now);
-
             }
+            return stockReport;
         }
 
         public StockReport GetLast()
         {
             try
             {
-                using var reader = new StreamReader(_reportFilePath);
+                var cosmosClient = new CosmosClient($"AccountEndpoint={_endpointUri};AccountKey={_primaryKey}");
 
+                // Get a reference to the database and container
+                var database = cosmosClient.GetDatabase($"{_databaseName}");
+                var container = database.GetContainer($"{_containerName}");
+
+                // Create a query to get the last entry from the container
+                var query = new QueryDefinition("SELECT TOP 1 c.content FROM c ORDER BY c.id DESC");
+                var iterator = container.GetItemQueryIterator<dynamic>(query);
+
+                // Get the content of the last entry from the iterator
+                dynamic result = iterator.ReadNextAsync().Result.FirstOrDefault();
+                string content = result?.content ?? string.Empty;
+
+                // If there is no content, throw an exception
+                if (string.IsNullOrEmpty(content))
+                {
+                    throw new LastStockNotFoundException("No content found in the Cosmos DB container.");
+                }
+                using var reader = new StringReader(content);
                 using var csv = new CsvReader(reader, GetConfig());
                 csv.Context.RegisterClassMap(new ReportEntryMap());
 
                 var rows = csv.GetRecords<ReportEntry>().ToList();
                 return new StockReport { Entries = rows };
-            } 
-            catch(FileNotFoundException)
-            {
-                throw new LastStockNotFoundException(_reportFilePath);
             }
             catch (IOException ex)
             {
