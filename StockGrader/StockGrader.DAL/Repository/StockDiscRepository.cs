@@ -125,7 +125,7 @@ namespace StockGrader.DAL.Repository
                 var container = database.GetContainer($"{_containerName}");
 
                 // Create a query to get the last entry from the container
-                var query = new QueryDefinition("SELECT TOP 1 c.content FROM c ORDER BY c.date DESC");
+                var query = new QueryDefinition("SELECT TOP 1 c.content FROM c ORDER BY c.id DESC");
                 var iterator = container.GetItemQueryIterator<dynamic>(query);
 
                 // Get the content of the last entry from the iterator
