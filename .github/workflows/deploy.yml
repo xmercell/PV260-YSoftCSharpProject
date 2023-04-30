@@ -1,0 +1,40 @@
+name: build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOTNET_VERSION: "7.0.X"
+  AZURE_WEBAPP_NAME: stock-grader
+  AZURE_WEBAPP_PACKAGE_PATH: "."
+  PUBLISH_PROJECT_FOLDER: StockGraderRelease
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install dependencies
+        run: dotnet restore StockGrader/StockGrader.sln
+
+      - name: Build
+        run: dotnet build StockGrader/StockGrader.sln --configuration Release --no-restore
+
+      - name: Prepare app for release
+        run: dotnet publish StockGrader/StockGrader.sln --configuration Release --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.PUBLISH_PROJECT_FOLDER }}'
+
+      - name: Deploy app to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.PUBLISH_PROJECT_FOLDER }}"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
