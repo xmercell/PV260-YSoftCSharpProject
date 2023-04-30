@@ -193,3 +193,6 @@ ModelManifest.xml
 
 # DIscordConfigFile
 /StockGrader/StockGrader.DiscordBot/Config.json
+
+/StockGrader/StockGrader.ExecutableConsoleApp/App.config
+

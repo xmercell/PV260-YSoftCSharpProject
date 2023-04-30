@@ -32,6 +32,8 @@ jobs:
       
     - name: Build
       run: dotnet build StockGrader/StockGrader.sln --configuration Release --no-restore
-    
+
     - name: Test
       run: dotnet test StockGrader/StockGrader.sln --no-restore --verbosity normal
+      env:
+        PRIMARY_KEY: ${{ secrets.PRIMARYKEY }}
