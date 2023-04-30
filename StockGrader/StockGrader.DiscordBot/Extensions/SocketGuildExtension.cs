@@ -79,18 +79,7 @@ public static class SocketGuildExtension
         return await guild.CreateRoleAsync(roleName);
     }
 
-    public static async Task<ITextChannel> GetOrCreateChannelAsync(this SocketGuild guild, string channelName)
-    {
-        var channel = guild.GetTextChannelByName(channelName);
-
-        if (channel is not null)
-        {
-            return channel;
-        }
-
-        return await guild.CreateTextChannelAsync(channelName);
-    }
-
+    
     private static async Task SetPrivateChannelPermissions(this SocketGuild guild, IRole role, ITextChannel channel)
     {
         await channel.AddPermissionOverwriteAsync(
