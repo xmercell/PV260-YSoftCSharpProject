@@ -198,7 +198,7 @@ namespace StockGrader.DiscordBot.Services
             return embed;
         }
 
-        private string GeneratePositionsContent(IEnumerable<AbstractPosition> positions)
+        private string GeneratePositionsContent(IEnumerable<IPosition> positions)
         {
             var result = new StringBuilder();
             foreach (var pos in positions)

@@ -1,6 +1,6 @@
 ﻿namespace StockGrader.BL.Model
 {
-    public abstract class AbstractPosition
+    public interface IPosition
     {
     }
 }

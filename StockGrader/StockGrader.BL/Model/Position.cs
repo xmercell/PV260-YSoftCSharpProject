@@ -9,9 +9,7 @@ namespace StockGrader.BL.Model
     public class Position: AbstractPosition
     {
         public string CompanyName { get; }
-
         public string Ticker { get; }
-
         public int Shares { get; }
 
         public double Weight { get; }
