@@ -17,14 +17,10 @@ namespace StockGrader.DAL.Test
         [SetUp]
         public void SetUp()
         {
-            var configFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\StockGrader.ExecutableConsoleApp\\App.config"));
-            var configFileMap = new ExeConfigurationFileMap { ExeConfigFilename = configFilePath };
-            var config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-            Console.WriteLine(config.AppSettings.Settings);
-            var endpointUri = config.AppSettings.Settings["EndPointUri"].Value;
-            var primaryKey = config.AppSettings.Settings["PrimaryKey"].Value;
-            var databaseName = config.AppSettings.Settings["DatabaseName"].Value;
-            var containerName = config.AppSettings.Settings["ContainerName"].Value;
+            var endpointUri = "https://matejgros.documents.azure.com:443/";
+            var primaryKey = Environment.GetEnvironmentVariable("PRIMARY_KEY");
+            var databaseName = "ysoft";
+            var containerName = "ysoft_con";
 
             var url = new Uri("https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv");
             var userAgentHeader = "User-Agent";

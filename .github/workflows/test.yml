@@ -26,25 +26,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    
-    - name: Create App.config
-      run: |
-        echo '<?xml version="1.0" encoding="utf-8" ?>' > StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '<configuration>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '  <appSettings>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '    <add key="EndPointUri" value="https://matejgros.documents.azure.com:443/" />' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '    <add key="DatabaseName" value="ysoft" />' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '    <add key="ContainerName" value="ysoft_con" />' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '    <add key="PrimaryKey" value="nmMSVZAF1MHieaJJX7jYYKtDub0ivxLHQJjdWha4wX11LCMX8R5uMIQoKSOPdcQ8Z9H7F7APGwvbACDblhWZPw==" />' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '  </appSettings>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-        echo '</configuration>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
-
-    - name: List directory contents
-      run: ls -la StockGrader/StockGrader.ExecutableConsoleApp/
-
-    - name: Display App.config contents
-      run: cat StockGrader/StockGrader.ExecutableConsoleApp/App.config
-
 
     - name: Install dependencies
       run: dotnet restore StockGrader/StockGrader.sln
@@ -54,3 +35,5 @@ jobs:
 
     - name: Test
       run: dotnet test StockGrader/StockGrader.sln --no-restore --verbosity normal
+      env:
+        PRIMARY_KEY: "nmMSVZAF1MHieaJJX7jYYKtDub0ivxLHQJjdWha4wX11LCMX8R5uMIQoKSOPdcQ8Z9H7F7APGwvbACDblhWZPw=="
