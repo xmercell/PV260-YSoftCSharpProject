@@ -42,6 +42,22 @@ namespace StockGrader.DAL.Test
             Assert.That(stockReport.Entries.Count(), Is.GreaterThan(0));
         }
 
+        [Test]
+        public void GetByRealDateTest()
+        {
+            var stockReport = stockRep.GetByDate(new DateTime(2023, 4, 28, 1, 1, 1, DateTimeKind.Utc));
+            Assert.That(stockReport, Is.Not.Null);
+            Assert.That(stockReport.Entries, Is.Not.Null);
+            Assert.That(stockReport.Entries.Count(), Is.EqualTo(28));
+        }
+
+        [Test]
+        public void GetByNonExistDateTest()
+        {
+            var stockReport = stockRep.GetByDate(new DateTime(2023, 3, 28, 1, 1, 1, DateTimeKind.Utc));
+            Assert.That(stockReport, Is.Null);
+
+        }
 
 
     }

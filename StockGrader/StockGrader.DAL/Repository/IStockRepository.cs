@@ -11,5 +11,12 @@ namespace StockGrader.DAL.Repository
         Task FetchNew();
 
         StockReport GetLast();
+
+        /// <summary>
+        /// Returns todays report. If it is not in db, fetch it from the website: 
+        /// </summary>
+        /// <returns>New stock report parsed from csv</returns>
+        StockReport GetCurrent();
+        StockReport GetByDate(DateTime date);
     }
 }
