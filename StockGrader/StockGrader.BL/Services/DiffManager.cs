@@ -1,4 +1,7 @@
-﻿using StockGrader.BL.Model;
+﻿using StockGrader.BL.Exception;
+using StockGrader.BL.Model;
+using StockGrader.DAL.Exception;
+using StockGrader.DAL.Model;
 using StockGrader.DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -45,12 +48,30 @@ namespace StockGrader.BL.Services
 
         private Diff GetDiffSince(DateTime previousDate)
         {
-            var previousStock = _stockRepository.GetByDate(previousDate);
-            var todayStock = _stockRepository.GetCurrent();
+            StockReport previousStock; 
+            try 
+            { 
+                previousStock = _stockRepository.GetByDate(previousDate);
+            }
+            catch (LastStockNotFoundException ex)
+            {
+                throw new FailedToGetOldRecordException("Could not get old record from database.", ex);
+            }
+
+            StockReport todayStock;
+            try
+            {
+                todayStock = _stockRepository.GetCurrent();
+            }
+            catch(NewStocksNotAvailableException ex)
+            {
+                throw new FailedToFetchCurrentRecordException("Could not get current report from database or fetch new from web.", ex);
+            }
+
 
             if (previousStock is null)
             {
-                previousStock = new DAL.Model.StockReport();
+                previousStock = new StockReport();
             }
 
             return _diffProvider.CalculateDiff(previousStock.Entries, todayStock.Entries);

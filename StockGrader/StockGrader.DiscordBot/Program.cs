@@ -9,6 +9,7 @@ using StockGrader.DiscordBot.Services;
 using StockGrader.StockComparisonRunner;
 using StockGrader.BL;
 using StockGrader.DAL;
+using StockGrader.DiscordBot.Configurations;
 
 namespace StockGrader.DiscordBot
 {
@@ -23,25 +24,33 @@ namespace StockGrader.DiscordBot
         }
 
         private static ServiceProvider ConfigureServices()
-        {
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("Config.json");
+        {   
+            // The configuration for http client
+            var stockUrl = new Uri(System.Configuration.ConfigurationManager.AppSettings["StockUrl"]);        
+            var userAgentHeader = System.Configuration.ConfigurationManager.AppSettings["UserAgentHeader"];
+            var commonUserAgent = System.Configuration.ConfigurationManager.AppSettings["CommonUserAgent"];
 
-            var configuration = configBuilder.Build();
-            Console.WriteLine(configuration);
+            // The configuration for connecting to Azure database
+            var endpointUri = System.Configuration.ConfigurationManager.AppSettings["EndPointUri"];
+            var primaryKey = System.Configuration.ConfigurationManager.AppSettings["PrimaryKey"];
+            var databaseName = System.Configuration.ConfigurationManager.AppSettings["DatabaseName"];
+            var containerName = System.Configuration.ConfigurationManager.AppSettings["ContainerName"];
 
-            //var serviceCollection = new ServiceCollection();
-            //serviceCollection.InstallStockComparisonRunner();
-            //serviceCollection.InstallDal(stockUrl, filePath, userAgentHeader, commonUserAgent);
-            //serviceCollection.InstallBl();
+            // The confiuration for bot
+            var token = System.Configuration.ConfigurationManager.AppSettings["token"];
+            var prefix = System.Configuration.ConfigurationManager.AppSettings["prefix"];
 
-            return new ServiceCollection()
-                .AddSingleton<IConfiguration>(configuration)
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.InstallStockComparisonRunner();
+            serviceCollection.InstallDal(stockUrl, userAgentHeader, commonUserAgent, endpointUri, primaryKey, databaseName, containerName);
+            serviceCollection.InstallBl();
+
+            serviceCollection
                 .AddSingleton<DiscordSocketClient>()
                 .AddSingleton<CommandService>()
-                .AddSingleton<Bot>()
-                .BuildServiceProvider();
-        }
+                .AddSingleton<BotConfig>(provider => new BotConfig(token, prefix))
+                .AddSingleton<Bot>();
+
+            return serviceCollection.BuildServiceProvider();
     }
 }

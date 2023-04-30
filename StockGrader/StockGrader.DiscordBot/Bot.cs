@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using StockGrader.BL;
 using StockGrader.BL.Services;
+using StockGrader.DiscordBot.Configurations;
 using StockGrader.DiscordBot.Services;
 
 namespace StockGrader.DiscordBot
@@ -17,13 +18,15 @@ namespace StockGrader.DiscordBot
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
-        private readonly IConfiguration _configuration;
         private ScheduledMessageService _scheduledMessageService;
         private readonly IDiffManager _diffManager;
+        private readonly string _token;
+        private readonly string _prefix;
 
-        public Bot(IConfiguration configuration, IDiffManager diffManager)
+        public Bot(BotConfig botConfig, IDiffManager diffManager)
         {
-            _configuration = configuration;
+            _prefix = botConfig.Prefix;
+            _token = botConfig.Token;
             _diffManager = diffManager;
             
 
@@ -38,7 +41,7 @@ namespace StockGrader.DiscordBot
 
         public async Task StartAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, _configuration["Token"]);
+            await _client.LoginAsync(TokenType.Bot, _token);
             await _client.StartAsync();
 
             _client.Log += LogAsync;
@@ -70,7 +73,7 @@ namespace StockGrader.DiscordBot
             Console.WriteLine($"Message received from {message.Author.Username} ({message.Author.Id}): {message.Content} (Type: {message.Type})");
 
             int argPos = 0;
-            char prefix = Char.Parse(_configuration["CommandPrefix"]);
+            char prefix = Char.Parse(_prefix);
 
             if (!(message.HasCharPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))) return;
 
