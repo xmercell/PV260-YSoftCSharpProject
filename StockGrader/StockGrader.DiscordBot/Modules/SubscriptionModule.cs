@@ -57,9 +57,15 @@ namespace StockGrader.DiscordBot.Modules
             await channel.SendMessageAsync(builder.ToString());
         }
 
+        private async Task<IGuildUser> FetchUser(ulong userId)
+        {
+            var users = await Context.Guild.GetUsersAsync(new RequestOptions()).FlattenAsync();
+            return users.FirstOrDefault(user => user.Id == userId);
+        }
+        
         private async Task AssignUserToChannelAsync(string channelName)
         {
-            var user = Context.User;
+
             // roles can be named the same way as channels, or we can add parameter
             var role = await Context.Guild.GetOrCreateRoleAsync(channelName);
 
@@ -74,11 +80,14 @@ namespace StockGrader.DiscordBot.Modules
 
             if (channel is not null)
             {
-                var guildUser = user as IGuildUser;
-                var roleIDs = await Context.Guild.GetChannelRolesIDs();
-                await guildUser.RemoveRolesAsync(roleIDs);
-                await (Context.User as IGuildUser).AddRoleAsync(role);
-                await Context.Channel.SendMessageAsync($"{user.Mention} has been assigned to {channel.Mention}");
+                var roleIds = Context.Guild.GetChannelRolesIDs();
+                
+                await (Context.User as IGuildUser).RemoveRolesAsync(roleIds);
+                // Important: Due to the library caching, we have to re-fetch the user
+                var reFetchedUser = await FetchUser(Context.User.Id);
+                await reFetchedUser.AddRoleAsync(role);
+
+                await Context.Channel.SendMessageAsync($"{Context.User.Mention} has been assigned to {channel.Mention}");
             }
             else
             {

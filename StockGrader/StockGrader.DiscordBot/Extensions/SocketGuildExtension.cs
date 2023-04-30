@@ -32,18 +32,18 @@ public static class SocketGuildExtension
         return await guild.CreateTextChannelAsync(channelName);
     }
 
-    public static async Task<IList<ulong>> GetChannelRolesIDs(this SocketGuild guild)
+    public static IList<ulong> GetChannelRolesIDs(this SocketGuild guild)
     {
-        var roleIDs = new List<ulong>();
+        List<ulong> ids = new();
         foreach (var role in guild.Roles)
         {
             if (ChannelNames.Contains(role.Name))
             {
-                roleIDs.Add(role.Id);
+                ids.Add(role.Id);
             }
         }
 
-        return roleIDs;
+        return ids;
     }
 
     public static async Task<ITextChannel> EnsureRoleChannelExistsAsync(this SocketGuild guild, string channelName)
