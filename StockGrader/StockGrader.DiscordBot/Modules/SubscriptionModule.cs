@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
 using StockGrader.DiscordBot.Prerequisities;
+using System.Text;
 using System.Threading.Tasks;
 using static StockGrader.DiscordBot.Utils;
 
@@ -36,6 +37,22 @@ namespace StockGrader.DiscordBot.Modules
         public async Task MonthlyAsync()
         {
             await AssignUserToChannelAsync("monthly");
+        }
+
+        [RequireChannel("subs")]
+        [Command("help")]
+        public async Task HelpAsync()
+        {
+            var channel = Context.Channel;
+            var builder = new StringBuilder();
+            builder
+                .AppendLine("**Commands for signing to channels**")
+                .AppendLine("*daily* for daily stock changes channel")
+                .AppendLine("*weekly* for weekly stock changes channel")
+                .AppendLine("*biweekly* for biweekly stock changes channel")
+                .AppendLine("*monthly* for monthly stock changes channel");
+
+            await channel.SendMessageAsync(builder.ToString());
         }
 
         private async Task AssignUserToChannelAsync(string channelName)
