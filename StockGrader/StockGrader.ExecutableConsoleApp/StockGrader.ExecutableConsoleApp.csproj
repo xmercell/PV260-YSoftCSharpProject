@@ -19,4 +19,8 @@
     <ProjectReference Include="..\StockGrader.StockComparisonRunner\StockGrader.StockComparisonRunner.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Include="App.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
