@@ -4,36 +4,23 @@ using Discord.WebSocket;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Channels;
+using StockGrader.DiscordBot.Extensions;
 
 namespace StockGrader.DiscordBot
 {
     public static class Utils
     {
         public static readonly IList<String> ChannelNames = new ReadOnlyCollection<string>(new List<String> {"daily", "weekly", "biweekly", "monthly" });
-        public static SocketTextChannel GetTextChannelByName(SocketGuild guild, string channelName)
-        {
-            return guild.TextChannels.FirstOrDefault(c => c.Name.Equals(channelName, StringComparison.OrdinalIgnoreCase));
-        }
+
 
         public static SocketRole GetRoleByName(SocketGuild guild, string roleName) 
         {
             return guild.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.Ordinal));
         }
 
-        public static async Task<ITextChannel> EnsureChannelExistsAsync(string channelName, SocketGuild guild)
-        {
-            var existingChannel = GetTextChannelByName(guild, channelName);
-
-            if (existingChannel is not null)
-            {
-                return existingChannel;
-            }
-            return await guild.CreateTextChannelAsync(channelName);
-        }
-
         public static async Task<ITextChannel> EnsureRoleChannelExistsAsync(string channelName, SocketGuild guild)
         {
-            ITextChannel channel = GetTextChannelByName(guild, channelName);
+            ITextChannel channel = guild.GetTextChannelByName(channelName);
 
             var role = await GetOrCreateRoleAsync(channelName, guild);
 
@@ -70,7 +57,7 @@ namespace StockGrader.DiscordBot
 
         public static async Task<ITextChannel> GetOrCreateChannelAsync(string channelName, SocketGuild guild)
         {
-            var channel = GetTextChannelByName(guild, channelName);
+            var channel = guild.GetTextChannelByName(channelName);
 
             if (channel is not null)
             {

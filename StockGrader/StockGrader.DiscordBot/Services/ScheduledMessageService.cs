@@ -5,6 +5,7 @@ using static StockGrader.DiscordBot.Utils;
 using StockGrader.BL.Services;
 using StockGrader.BL.Model;
 using System.Text;
+using StockGrader.DiscordBot.Extensions;
 
 namespace StockGrader.DiscordBot.Services
 {
@@ -37,7 +38,7 @@ namespace StockGrader.DiscordBot.Services
 
             foreach (var guild in _client.Guilds)
             {
-                await EnsureChannelExistsAsync("subs", guild);
+                await guild.EnsureChannelExistsAsync("subs");
                 var dailyChannel = await EnsureRoleChannelExistsAsync("daily", guild);
                 var weeklyChannel = await EnsureRoleChannelExistsAsync("weekly", guild);
                 var biweeklyChannel = await EnsureRoleChannelExistsAsync("biweekly", guild);

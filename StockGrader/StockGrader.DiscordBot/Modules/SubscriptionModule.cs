@@ -11,6 +11,8 @@ namespace StockGrader.DiscordBot.Modules
 {
     public class SubscriptionModule : ModuleBase<SocketCommandContext>
     {
+        
+        
         [RequireChannel("subs")]
         [Command("daily")]
         public async Task DailyAsync()
