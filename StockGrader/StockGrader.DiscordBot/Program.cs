@@ -44,12 +44,7 @@ namespace StockGrader.DiscordBot
             serviceCollection.InstallStockComparisonRunner();
             serviceCollection.InstallDal(stockUrl, userAgentHeader, commonUserAgent, endpointUri, primaryKey, databaseName, containerName);
             serviceCollection.InstallBl();
-
-            serviceCollection
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<CommandService>()
-                .AddSingleton<BotConfig>(provider => new BotConfig(token, prefix))
-                .AddSingleton<Bot>();
+            serviceCollection.InstallBot(token, prefix);
 
             return serviceCollection.BuildServiceProvider();
         }
