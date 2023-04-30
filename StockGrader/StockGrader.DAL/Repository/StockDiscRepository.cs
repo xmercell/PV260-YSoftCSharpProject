@@ -50,7 +50,16 @@ namespace StockGrader.DAL.Repository
 
         public StockReport GetCurrent()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return GetByDate(DateTime.Now);
+
+            }
+            catch(LastStockNotFoundException ex) {
+                FetchNew().Wait();
+                return GetByDate(DateTime.Now);
+
+            }
         }
 
         public StockReport GetLast()
