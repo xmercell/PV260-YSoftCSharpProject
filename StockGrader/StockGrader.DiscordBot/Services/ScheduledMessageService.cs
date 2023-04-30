@@ -1,7 +1,6 @@
 ﻿using Discord.WebSocket;
 using Discord;
 using System.Timers;
-using static StockGrader.DiscordBot.Utils;
 using StockGrader.BL.Services;
 using StockGrader.BL.Model;
 using System.Text;
@@ -39,10 +38,10 @@ namespace StockGrader.DiscordBot.Services
             foreach (var guild in _client.Guilds)
             {
                 await guild.EnsureChannelExistsAsync("subs");
-                var dailyChannel = await EnsureRoleChannelExistsAsync("daily", guild);
-                var weeklyChannel = await EnsureRoleChannelExistsAsync("weekly", guild);
-                var biweeklyChannel = await EnsureRoleChannelExistsAsync("biweekly", guild);
-                var monthlyChannel = await EnsureRoleChannelExistsAsync("monthly", guild);
+                var dailyChannel = await guild.EnsureRoleChannelExistsAsync("daily");
+                var weeklyChannel = await guild.EnsureRoleChannelExistsAsync("weekly");
+                var biweeklyChannel = await guild.EnsureRoleChannelExistsAsync("biweekly");
+                var monthlyChannel = await guild.EnsureRoleChannelExistsAsync("monthly");
 
                 await CheckAndSendDailyMessageAsync(dailyChannel);
                 await CheckAndSendWeeklyMessageAsync(weeklyChannel);

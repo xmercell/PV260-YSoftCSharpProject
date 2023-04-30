@@ -5,7 +5,7 @@ using Discord.WebSocket;
 using StockGrader.DiscordBot.Prerequisities;
 using System.Text;
 using System.Threading.Tasks;
-using static StockGrader.DiscordBot.Utils;
+using StockGrader.DiscordBot.Extensions;
 
 namespace StockGrader.DiscordBot.Modules
 {
@@ -61,7 +61,7 @@ namespace StockGrader.DiscordBot.Modules
         {
             var user = Context.User;
             // roles can be named the same way as channels, or we can add parameter
-            var role = await GetOrCreateRoleAsync(channelName, Context.Guild);
+            var role = await Context.Guild.GetOrCreateRoleAsync(channelName);
 
             if (role == null)
             {
@@ -69,13 +69,13 @@ namespace StockGrader.DiscordBot.Modules
                 return;
             }
 
-            var channel = await EnsureRoleChannelExistsAsync(channelName, Context.Guild);
+            var channel = await Context.Guild.EnsureRoleChannelExistsAsync(channelName);
             
 
             if (channel is not null)
             {
                 var guildUser = user as IGuildUser;
-                var roleIDs = await GetChannelRolesIDs(Context.Guild);
+                var roleIDs = await Context.Guild.GetChannelRolesIDs();
                 await guildUser.RemoveRolesAsync(roleIDs);
                 await (Context.User as IGuildUser).AddRoleAsync(role);
                 await Context.Channel.SendMessageAsync($"{user.Mention} has been assigned to {channel.Mention}");
