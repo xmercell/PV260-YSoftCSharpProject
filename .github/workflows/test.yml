@@ -36,4 +36,4 @@ jobs:
     - name: Test
       run: dotnet test StockGrader/StockGrader.sln --no-restore --verbosity normal
       env:
-        PRIMARY_KEY: "nmMSVZAF1MHieaJJX7jYYKtDub0ivxLHQJjdWha4wX11LCMX8R5uMIQoKSOPdcQ8Z9H7F7APGwvbACDblhWZPw=="
+        PRIMARY_KEY: ${{ secrets.PRIMARYKEY }}
