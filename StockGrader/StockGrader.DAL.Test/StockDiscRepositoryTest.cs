@@ -20,7 +20,7 @@ namespace StockGrader.DAL.Test
             var configFilePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\StockGrader.ExecutableConsoleApp\\App.config"));
             var configFileMap = new ExeConfigurationFileMap { ExeConfigFilename = configFilePath };
             var config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-
+            Console.WriteLine(config.AppSettings.Settings);
             var endpointUri = config.AppSettings.Settings["EndPointUri"].Value;
             var primaryKey = config.AppSettings.Settings["PrimaryKey"].Value;
             var databaseName = config.AppSettings.Settings["DatabaseName"].Value;

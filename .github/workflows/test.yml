@@ -39,6 +39,13 @@ jobs:
         echo '  </appSettings>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
         echo '</configuration>' >> StockGrader/StockGrader.ExecutableConsoleApp/App.config
 
+    - name: List directory contents
+      run: ls -la StockGrader/StockGrader.ExecutableConsoleApp/
+
+    - name: Display App.config contents
+      run: cat StockGrader/StockGrader.ExecutableConsoleApp/App.config
+
+
     - name: Install dependencies
       run: dotnet restore StockGrader/StockGrader.sln
       
