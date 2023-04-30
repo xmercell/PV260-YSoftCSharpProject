@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Azure.Cosmos;
 using StockGrader.DAL.Exception;
@@ -111,7 +111,13 @@ namespace StockGrader.DAL.Repository
 
         public StockReport GetCurrent()
         {
-            throw new NotImplementedException();
+            var stockReport = GetByDate(DateTime.Now);
+            if (stockReport == null)
+            {
+                FetchNew().Wait();
+                return GetByDate(DateTime.Now);
+            }
+            return stockReport;
         }
 
         public StockReport GetLast()
