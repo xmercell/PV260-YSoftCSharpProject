@@ -6,19 +6,25 @@ namespace StockGrader.DAL.Test
         [Test]
         public void StockDiskRepositoryLoadsCsv()
         {
-            new When().LoadNewReportAsync().Result.AssertReportNotEmpty();
+            new When()
+                .LoadNewReportAsync().Result
+                .AssertReportNotEmpty();
         }
 
         [Test]
         public void GetByRealDateTest()
         {
-            new When().LoadReportValidDate().AssertReportEntriesCount();
+            new When()
+                .LoadReportValidDate()
+                .AssertReportEntriesCount();
         }
 
         [Test]
         public void GetByNonExistDateTest()
         {
-            new When().LoadReportInvalidDate().AssertReportEmpty();
+            new When()
+                .LoadReportInvalidDate()
+                .AssertReportEmpty();
         }
     }
 }

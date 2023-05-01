@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StockGrader.BL.Model;
+﻿using StockGrader.BL.Model;
 using StockGrader.BL.Writer;
 
 namespace StockGrader.BL.Test.ConsoleWriterTest
