@@ -23,8 +23,8 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           
-      - name: Create App.config
-        run: echo "${{ secrets.APP_CONFIG  }}" > StockGrader/StockGrader.DiscordBot/App.config
+      - name: Copy App.config from secret
+        run: echo "${{ secrets.APP_CONFIG }}" | base64 --decode > StockGrader/StockGrader.DiscordBot/App.config
 
       - name: Install dependencies
         run: dotnet restore StockGrader/StockGrader.sln
