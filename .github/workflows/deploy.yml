@@ -7,7 +7,7 @@ on:
 
 env:
   DOTNET_VERSION: "7.0.X"
-  AZURE_WEBAPP_NAME: stock-grader
+  AZURE_WEBAPP_NAME: StockGrader
   AZURE_WEBAPP_PACKAGE_PATH: "."
   PUBLISH_PROJECT_FOLDER: StockGraderRelease
 
