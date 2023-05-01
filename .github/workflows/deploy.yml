@@ -25,26 +25,23 @@ jobs:
           
       - name: Create App.config
         run: |
-             cat > StockGrader/StockGrader.DiscordBot/App.config <<EOT
-             <?xml version="1.0" encoding="utf-8" ?>
-             <configuration>
-                  <appSettings>
-                      <add key="EndpointUri" value="https://matejgros.documents.azure.com:443/" />
-                      <add key="PrimaryKey" value="${{ secrets.PRIMARYKEY  }}" />
-                      <add key="ContainerName" value="ysoft_con"/>
-                      <add key="DatabaseName" value="ysoft"/>
-
-                      <add key="StockUrl" value="https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv"/>
-                      <add key="FileName" value="ARK_ORIGINAL.csv"/>
-                      <add key="UserAgentHeader" value="User-Agent"/>
-                      <add key="CommonUserAgent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"/>
-
-                      <add key="Token" value="${{ secrets.DISCORD_TOKEN  }}"/>
-                      <add key="CommandPrefix" value="!"/>
-
-                  </appSettings>
-              </configuration>
-              EOT
+          cat << EOF > StockGrader/StockGrader.DiscordBot/App.config
+          <?xml version="1.0" encoding="utf-8" ?>
+          <configuration>
+              <appSettings>
+                  <add key="EndpointUri" value="https://matejgros.documents.azure.com:443/" />
+                  <add key="PrimaryKey" value="${{ secrets.PRIMARYKEY  }}" />
+                  <add key="ContainerName" value="ysoft_con"/>
+                  <add key="DatabaseName" value="ysoft"/>
+                  <add key="StockUrl" value="https://ark-funds.com/wp-content/uploads/funds-etf-csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv"/>
+                  <add key="FileName" value="ARK_ORIGINAL.csv"/>
+                  <add key="UserAgentHeader" value="User-Agent"/>
+                  <add key="CommonUserAgent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"/>
+                  <add key="Token" value="${{ secrets.DISCORD_TOKEN  }}"/>
+                  <add key="CommandPrefix" value="!"/>
+              </appSettings>
+          </configuration>
+          EOF
 
 
       - name: Install dependencies
