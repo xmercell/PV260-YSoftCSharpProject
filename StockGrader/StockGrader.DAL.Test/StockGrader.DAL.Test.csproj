@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockGrader.DAL\StockGrader.DAL.csproj" />
+    <ProjectReference Include="..\StockGrader.DiscordBot\StockGrader.DiscordBot.csproj" />
   </ItemGroup>
 
 </Project>
