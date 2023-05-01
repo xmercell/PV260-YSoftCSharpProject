@@ -54,7 +54,7 @@ jobs:
         run: dotnet build StockGrader/StockGrader.sln --configuration Release --no-restore
 
       - name: Prepare app for release
-        run: dotnet publish StockGrader/StockGrader.DiscordBot/StockGrader.DiscordBot.csproj --configuration Release --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.PUBLISH_PROJECT_FOLDER }}/App_Data/Jobs/Triggered/StockGrader.DiscordBot'
+        run: dotnet publish StockGrader/StockGrader.DiscordBot/StockGrader.DiscordBot.csproj --configuration Release --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.PUBLISH_PROJECT_FOLDER }}/App_Data/Jobs/Continuous/StockGrader.DiscordBot'
 
       - name: Deploy app to Azure
         uses: azure/webapps-deploy@v2
