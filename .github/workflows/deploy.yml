@@ -25,7 +25,8 @@ jobs:
           
       - name: Create App.config
         run: |
-             cat > StockGrader/StockGrader.DiscordBot/App.config << EOT
+             cat > StockGrader/StockGrader.DiscordBot/App.config << 
+             EOT
              <?xml version="1.0" encoding="utf-8" ?>
              <configuration>
                   <appSettings>
